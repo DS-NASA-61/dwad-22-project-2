@@ -1,12 +1,23 @@
 import React from "react";
 import axios from "axios";
-import ReactCalendar from "./components/calendar";
-import CreateNewPrayerRequest from "./components/createNewPrayerRequest";
-import PrayerRequests from "./components/prayerRequests";
-import MultiselectPrayFor from "./components/multiselectPrayerFor";
-import MultiselectPrayerTopic from "./components/multiselectPrayerTopic";
+import ReactCalendar from "../components/calendar";
+import CreateNewPrayerRequest from "../components/createNewPrayerRequest";
+import PrayerRequests from "../components/prayerRequests";
+import MultiselectPrayFor from "../components/multiselectPrayerFor";
+import MultiselectPrayerTopic from "../components/multiselectPrayerTopic";
 
 //!!!important note: in JSX, components are used with captial first letter, otherwise cannot be recongnized as JSX hence cannot render
+
+// onChange = (date) => {
+//   const ISOdate = date.toISOString();
+//   // do stuff with ISOdate
+// };
+// https://github.com/wojtekmaj/react-date-picker/issues/4
+
+//e.g.
+// const myDate = new Date(); // current date and time
+// const isoDate = myDate.toISOString(); // convert to ISODate format
+// console.log(isoDate); // prints something like: "2023-03-25T14:30:00.000Z"
 
 export default class PrayerWall extends React.Component {
   BASE_API_URL = "http://localhost:4000/";
@@ -16,6 +27,7 @@ export default class PrayerWall extends React.Component {
     data: [],
 
     date: new Date(), //for the Calendar Library
+    datePicker: new Date(), //for the datePicker Library
     showPrayerRequestForm: false,
     //below state are for filters in side pannel
     prayerTopicOptions: [
@@ -54,6 +66,10 @@ export default class PrayerWall extends React.Component {
     newPray_for: "",
     newPrayerRequestContent: "",
 
+    prayerRequestBeingEdited: null,
+    modifiedTitle: "",
+    modifiedContent: "",
+
     newAnswered: false,
   };
 
@@ -85,14 +101,15 @@ export default class PrayerWall extends React.Component {
   // must be async function to add the new PrayerRequest to the mongo database.
   addNewPrayerRequest = async () => {
     let response = await axios.post(this.BASE_API_URL + "prayer_request", {
-      title: this.state.newTitle,
-      prayer_topic: this.state.newPrayer_topic,
-      pray_for: this.state.newPray_for,
-      content: this.state.newPrayerRequestContent,
       user: {
         username: this.state.newRequested_by,
         user_email: this.state.newRequested_by_email,
       },
+      title: this.state.newTitle,
+      date: this.state.datePicker,
+      prayer_topic: this.state.newPrayer_topic,
+      pray_for: this.state.newPray_for,
+      content: this.state.newPrayerRequestContent,
     });
 
     this.setState({
@@ -139,6 +156,7 @@ export default class PrayerWall extends React.Component {
   filterSearch = async () => {
     const response = await axios.get(this.BASE_API_URL + "prayer_request", {
       params: {
+        cellgroupId: this.props.user.cellgroupId,
         title: this.state.searchTitle,
         prayer_topic: this.state.selectedPrayerTopics,
         pray_for: this.state.selectedPrayerFor,
@@ -151,12 +169,28 @@ export default class PrayerWall extends React.Component {
     this.setState({ data: response.data });
   };
 
+  //must use an arrow function here, coz it will automatically bind `this` to the parent component,
+  //since arrow functions do not have their own `this` value,
+  //so this inside an arrow function refers to the this value of the enclosing scope.
+  //otherwise will result in error this.setState is not a function
+  beginEditPrayerRequest = (p) => {
+    this.setState({
+      prayerRequestBeingEdited: p,
+    });
+  };
+
   renderContent() {
-    if (this.state.data.legnth === 0) {
+    if (this.state.data.length === 0) {
       return null;
     } else {
       if (this.state.active === "prayerRequests") {
-        return <PrayerRequests data={this.state.data} />;
+        return (
+          <PrayerRequests
+            data={this.state.data}
+            prayerRequestBeingEdited={this.state.prayerRequestBeingEdited}
+            editPrayerRequest={this.beginEditPrayerRequest}
+          />
+        );
       } else if (this.state.active === "createNewPrayerRequest") {
         return <CreateNewPrayerRequest />;
       }
@@ -189,14 +223,6 @@ export default class PrayerWall extends React.Component {
       <React.Fragment>
         <div className="container">
           <div style={{ height: "20px" }}></div>
-          <div className="row" style={{ margin: "1rem" }}>
-            <div className="col col-lg-3 text-start">
-              <button className="btn btn-primary btn-sm">HOME</button>
-            </div>
-            <div class="col text-end">
-              <button className="btn btn-primary btn-sm">ABOUT US</button>
-            </div>
-          </div>
 
           <div className="row">
             <section

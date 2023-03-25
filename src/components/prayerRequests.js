@@ -5,6 +5,8 @@ import { FaBible } from "react-icons/fa";
 import { FaTimesCircle } from "react-icons/fa";
 import { FaCalendarAlt } from "react-icons/fa";
 import { FaPray } from "react-icons/fa";
+import { MdAccessibilityNew } from "react-icons/md";
+import { FaPrayingHands } from "react-icons/fa";
 
 export default function prayerRequests(props) {
   return (
@@ -12,7 +14,6 @@ export default function prayerRequests(props) {
       <div id="all-prayerRequest">
         {/* optional chaining : "?"  */}
         {props.data.requests?.map((prayerRequest) => {
-          console.log(prayerRequest);
           return (
             <div
               className="card mt-3"
@@ -27,7 +28,17 @@ export default function prayerRequests(props) {
                         {prayerRequest.title}
                       </h5>
                       <div className="col">
-                        <FaEdit className="me-2" style={{ color: "#55BB8E" }} />
+                        <FaEdit
+                          className="me-2"
+                          style={{ color: "#55BB8E" }}
+                          onClick={() => {
+                            // props.editPrayerRequest(prayerRequest.data);
+                            props.editPrayerRequest(prayerRequest);
+                          }} //use arraw function, so can have parameter in,
+                          // must put `prayerRequest` since we are using map(prayerRequest),
+                          //so can identify which one we are about to edit
+                        />
+
                         <FaTimesCircle style={{ color: "#550C18" }} />
                       </div>
                     </div>
@@ -51,7 +62,7 @@ export default function prayerRequests(props) {
                       className="card-title text-start mb-0"
                       style={{ fontSize: "small" }}
                     >
-                      <FaPray className="me-1" style={{ color: "#55BB8E" }} />{" "}
+                      <FaPray className="me-1" style={{ color: "#55BB8E" }} /> #
                       {prayerRequest.pray_for}
                     </p>
                     <p
@@ -59,7 +70,7 @@ export default function prayerRequests(props) {
                       style={{ fontSize: "small" }}
                     >
                       <FaBible className="me-1" style={{ color: "#55BB8E" }} />{" "}
-                      {prayerRequest.prayer_topic}
+                      #{prayerRequest.prayer_topic}
                     </p>
                     <p
                       className="card-title text-start mb-0 col"
@@ -70,19 +81,21 @@ export default function prayerRequests(props) {
                     <button
                       className="btn btn-primary btn-sm me-2"
                       style={{
-                        width: "7rem",
+                        width: "8rem",
                       }}
                     >
                       Gimme a hug
+                      <MdAccessibilityNew />
                     </button>
                     <button
                       type="button"
                       className="btn btn-primary btn-sm me-5"
                       style={{
-                        width: "6rem",
+                        width: "7rem",
                       }}
                     >
                       Pray for me
+                      <FaPrayingHands className="ms-1" />
                     </button>
                   </div>
                 </div>

@@ -1,11 +1,11 @@
 import "./App.css";
-import PrayerWall from "./PrayerWall";
+import Main from "./Main";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
     <div className="App">
-      <PrayerWall />
+      <Main />
     </div>
   );
 }
