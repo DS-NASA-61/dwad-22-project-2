@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import { BiUserCircle, BiLock, BiMailSend } from "react-icons/bi";
 import { BsFillPeopleFill, BsLightbulb } from "react-icons/bs";
+import WelcomeMessage from "./welcomeMessage";
 
 export default class UserSignUp extends React.Component {
   BASE_API_URL = "http://localhost:4000/";
@@ -50,7 +51,7 @@ export default class UserSignUp extends React.Component {
                         className="form-control"
                         placeholder="Username"
                         name="username"
-                        // onChange={this.updateFormField}
+                        onChange={this.props.onUsernameChange}
                       />
                     </div>
                   </div>
@@ -66,7 +67,7 @@ export default class UserSignUp extends React.Component {
                         className="form-control"
                         placeholder="Email"
                         name="email"
-                        // onChange={this.updateFormField}
+                        onChange={this.props.onEmailChange}
                       />
                     </div>
                   </div>
@@ -82,7 +83,10 @@ export default class UserSignUp extends React.Component {
                       class="form-select"
                       style={{ borderRadius: "5px", color: "#636464" }}
                       value={this.state.selectedCellGroup}
-                      onChange={this.handleSelectChange}
+                      onChange={(event) => {
+                        this.handleSelectChange(event);
+                        this.props.onCellGroupChange(event);
+                      }}
                     >
                       <option value={""}>Select Cell Group</option>
                       {this.state.cellGroups.requests?.map((cellgroup) => {
@@ -109,7 +113,7 @@ export default class UserSignUp extends React.Component {
                         className="form-control"
                         placeholder="Password"
                         name="password"
-                        // onChange={this.updateFormField}
+                        onChange={this.props.onPasswordChange}
                       />
                     </div>
                   </div>

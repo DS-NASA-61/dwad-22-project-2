@@ -38,8 +38,6 @@ export default class Main extends React.Component {
     this.setState({ page: currentPage });
   };
 
-  //need to do I axios POST call (log in), passing in the info in the form
-  // these three are passed from child
   // login = async (username, email, password) => {
   //   const response = await axios.post(this.BASE_API_URL + "login", {
   //     username: username,
@@ -53,6 +51,9 @@ export default class Main extends React.Component {
   //   });
   // };
 
+  // need to do an axios POST call (log in), passing in the info in the form
+  // these three are passed from child
+  // wrap the axios.post call in a Promise to enable "login and then switch" to happen one after another
   login = async (username, email, password) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -72,6 +73,18 @@ export default class Main extends React.Component {
       }
     });
   };
+
+  // tomorrow need to finish sign up function
+  // signup = async(username, email, password, cellgroup) =>{
+  //   const response = await axios.post(this.BASE_API_URL + "signup", {
+  //     username: username,
+  //     user_email: email,
+  //     password: password,
+  //     cellgroup: xxxx
+  //   });
+  // };
+  // becuase in user document is cellgroup_id, so need to find and match...
+  // but also open to see if can jsut change the cellgroup_id to name in the database
 
   render() {
     return (

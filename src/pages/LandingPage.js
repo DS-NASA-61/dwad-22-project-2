@@ -5,9 +5,11 @@ import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 
 export default class LandingPage extends React.Component {
   state = {
+    //the state here rembers who logged in
     username: "",
     email: "",
     password: "",
+    cellgroup: "",
     display: "login",
     passwordVisible: false,
   };
@@ -50,6 +52,30 @@ export default class LandingPage extends React.Component {
 
   handleDisplayChange = () => {
     this.setState({ display: "signup" });
+  };
+
+  handleUsernameChangeinSignUp = (event) => {
+    this.setState({
+      username: event.target.value,
+    });
+  };
+
+  handleEmailChangeinSignUp = (event) => {
+    this.setState({
+      email: event.target.value,
+    });
+  };
+
+  handleCellgroupChangeinSignUp = (event) => {
+    this.setState({
+      cellgroup: event.target.value,
+    });
+  };
+
+  handlePasswordChangeinSignUp = (event) => {
+    this.setState({
+      password: event.target.value,
+    });
   };
 
   render() {
@@ -153,7 +179,12 @@ export default class LandingPage extends React.Component {
             </div>
           </div>
         ) : (
-          <UserSignUp />
+          <UserSignUp
+            onUsernameChange={this.handleUsernameChangeinSignUp}
+            onEmailChange={this.handleEmailChangeinSignUp}
+            onCellGroupChange={this.handleCellgroupChangeinSignUp}
+            onPasswordChange={this.handlePasswordChangeinSignUp}
+          />
         )}
       </React.Fragment>
     );
