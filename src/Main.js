@@ -23,7 +23,7 @@ export default class Main extends React.Component {
 
   renderPage = () => {
     if (this.state.page === "landing") {
-      return <LandingPage login={this.login} />;
+      return <LandingPage login={this.login} switchPage={this.switchPage} />;
     }
 
     if (this.state.page === "prayerwall") {
@@ -40,16 +40,36 @@ export default class Main extends React.Component {
 
   //need to do I axios POST call (log in), passing in the info in the form
   // these three are passed from child
+  // login = async (username, email, password) => {
+  //   const response = await axios.post(this.BASE_API_URL + "login", {
+  //     username: username,
+  //     user_email: email,
+  //     password: password,
+  //   });
+  //   // console.log(response);
+  //   this.setState({
+  //     page: "prayerWall",
+  //     user: response.data,
+  //   });
+  // };
+
   login = async (username, email, password) => {
-    const response = await axios.post(this.BASE_API_URL + "login", {
-      username: username,
-      user_email: email,
-      password: password,
-    });
-    console.log(response);
-    this.setState({
-      page: "prayerWall",
-      user: response.data,
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await axios.post(this.BASE_API_URL + "login", {
+          username: username,
+          user_email: email,
+          password: password,
+        });
+        // console.log(response);
+        this.setState({
+          page: "prayerWall",
+          user: response.data,
+        });
+        resolve(response.data);
+      } catch (error) {
+        reject(error);
+      }
     });
   };
 

@@ -10,12 +10,29 @@ export default class LandingPage extends React.Component {
     password: "",
   };
 
-  callLogin = () => {
-    this.props.login(
-      this.state.username,
-      this.state.email,
-      this.state.password
-    );
+  callSwitchPage = () => {
+    this.props.switchPage("prayerwall");
+  };
+
+  // callLogin = () => {
+  //   this.props.login(
+  //     this.state.username,
+  //     this.state.email,
+  //     this.state.password
+  //   );
+  // };
+
+  callLogin = async () => {
+    try {
+      await this.props.login(
+        this.state.username,
+        this.state.email,
+        this.state.password
+      );
+      this.callSwitchPage();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   updateFormField = (event) => {
@@ -31,10 +48,10 @@ export default class LandingPage extends React.Component {
           <div className="d-flex justify-content-center text-center">
             <div className="card bg-light">
               <div className="card-body mx-auto">
-                <h4 className="card-title mt-3 text-center">Create Account</h4>
-                <p className="text-center">Welcome to the Safe Space</p>
+                <h4 className="card-title mt-3 text-center">Hi, welcome</h4>
+                <p className="text-center">Sign in to the Safe Space</p>
                 <form>
-                  <div className="form-group input-group">
+                  <div className="form-group input-group  mt-4">
                     <div className="row align-content-center">
                       <BiUserCircle
                         className="me-1"
@@ -53,7 +70,7 @@ export default class LandingPage extends React.Component {
                     </div>
                   </div>
 
-                  <div className="form-group input-group mt-3">
+                  <div className="form-group input-group mt-2">
                     <div className="row align-content-center">
                       <BiMailSend className="me-1" style={{ width: "3rem" }} />
                     </div>
@@ -69,7 +86,7 @@ export default class LandingPage extends React.Component {
                     </div>
                   </div>
 
-                  <div className="form-group input-group mt-3">
+                  <div className="form-group input-group mt-2">
                     <div className="row align-content-center">
                       <BiLock className="me-1" style={{ width: "3rem" }} />
                     </div>
@@ -78,7 +95,7 @@ export default class LandingPage extends React.Component {
                         id="password"
                         type="text"
                         className="form-control"
-                        placeholder="Create password"
+                        placeholder="Password"
                         name="password"
                         onChange={this.updateFormField}
                       />
@@ -91,11 +108,11 @@ export default class LandingPage extends React.Component {
                       className="btn btn-primary btn-block"
                       onClick={this.callLogin}
                     >
-                      Create Account{" "}
+                      Sign in{" "}
                     </button>
                   </div>
-                  <p className="text-center mt-3">
-                    Have an account? <a href="">Log In</a>{" "}
+                  <p className="text-center mt-2">
+                    Not a member yet? <a href="">Sign Up</a>{" "}
                   </p>
                 </form>
               </div>
