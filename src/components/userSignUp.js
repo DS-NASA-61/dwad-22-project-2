@@ -1,15 +1,37 @@
 import React from "react";
-import { BiUserCircle } from "react-icons/bi";
-import { BiMailSend } from "react-icons/bi";
-import { BiLock } from "react-icons/bi";
+import axios from "axios";
+import { BiUserCircle, BiLock, BiMailSend } from "react-icons/bi";
+import { BsFillPeopleFill, BsLightbulb } from "react-icons/bs";
 
 export default class UserSignUp extends React.Component {
+  BASE_API_URL = "http://localhost:4000/";
+
+  state = {
+    cellGroups: [],
+    selectedCellGroup: "",
+  };
+
+  componentDidMount = async () => {
+    try {
+      const response = await axios.get(this.BASE_API_URL + "cellgroups", {});
+      this.setState({ cellGroups: response.data });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  handleSelectChange = (event) => {
+    this.setState({
+      selectedCellGroup: event.target.value,
+    });
+  };
+
   render() {
     return (
       <React.Fragment>
         <div className="row justify-content-center">
           <div className="d-flex justify-content-center text-center">
-            <div className="card text-white bg-success  mb-3">
+            <div className="card text-white bg-success mb-3">
               <div className="card-body mx-auto">
                 <h4 className="card-title mt-3 text-center">Hey, mate</h4>
                 <p className="text-center">Welcome to the Safe Space</p>
@@ -47,6 +69,33 @@ export default class UserSignUp extends React.Component {
                         // onChange={this.updateFormField}
                       />
                     </div>
+                  </div>
+
+                  <div className="form-group input-group mt-2">
+                    <div className="row align-content-center">
+                      <BsFillPeopleFill
+                        className="me-1"
+                        style={{ width: "3rem" }}
+                      />
+                    </div>
+                    <select
+                      class="form-select"
+                      style={{ borderRadius: "5px", color: "#636464" }}
+                      value={this.state.selectedCellGroup}
+                      onChange={this.handleSelectChange}
+                    >
+                      <option value={""}>Select Cell Group</option>
+                      {this.state.cellGroups.requests?.map((cellgroup) => {
+                        return (
+                          <option
+                            key={cellgroup._id}
+                            value={cellgroup.cell_group_name}
+                          >
+                            {cellgroup.cell_group_name}
+                          </option>
+                        );
+                      })}
+                    </select>
                   </div>
 
                   <div className="form-group input-group mt-2">

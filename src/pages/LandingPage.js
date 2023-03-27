@@ -1,8 +1,7 @@
 import React from "react";
 import UserSignUp from "../components/userSignUp";
-import { BiUserCircle } from "react-icons/bi";
-import { BiMailSend } from "react-icons/bi";
-import { BiLock } from "react-icons/bi";
+import { BiUserCircle, BiMailSend, BiLock } from "react-icons/bi";
+import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 
 export default class LandingPage extends React.Component {
   state = {
@@ -10,6 +9,7 @@ export default class LandingPage extends React.Component {
     email: "",
     password: "",
     display: "login",
+    passwordVisible: false,
   };
 
   callSwitchPage = () => {
@@ -23,6 +23,11 @@ export default class LandingPage extends React.Component {
   //     this.state.password
   //   );
   // };
+
+  // handle password visibility toggle
+  togglePassword = () => {
+    this.setState({ passwordVisible: !this.state.passwordVisible });
+  };
 
   callLogin = async () => {
     try {
@@ -96,19 +101,30 @@ export default class LandingPage extends React.Component {
                       </div>
                     </div>
 
-                    <div className="form-group input-group mt-2">
+                    <div className="relative form-group input-group mt-2 w-4/5 mx-auto">
                       <div className="row align-content-center">
                         <BiLock className="me-1" style={{ width: "3rem" }} />
                       </div>
-                      <div>
+                      <div className="w-full relative">
                         <input
                           id="password"
-                          type="text"
+                          type={
+                            this.state.passwordVisible === false
+                              ? "password"
+                              : "text"
+                          }
                           className="form-control"
                           placeholder="Password"
                           name="password"
                           onChange={this.updateFormField}
                         />
+                      </div>
+                      <div className="absolute top-0 right-0 px-3 py-2">
+                        {this.state.passwordVisible === false ? (
+                          <AiFillEyeInvisible onClick={this.togglePassword} />
+                        ) : (
+                          <AiFillEye onClick={this.togglePassword} />
+                        )}
                       </div>
                     </div>
 
@@ -123,7 +139,6 @@ export default class LandingPage extends React.Component {
                     </div>
                     <p className="text-center mt-4">
                       Not a member yet?
-                      {/* <a href="" onClick={this.handleDisplayChange}> */}
                       <button
                         type="button"
                         className="btn btn-link"
