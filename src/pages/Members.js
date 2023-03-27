@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 
-export default class LandingPage extends React.Component {
+export default class Members extends React.Component {
   BASE_API_URL = "http://localhost:4000/";
   state = {
     data: [],
