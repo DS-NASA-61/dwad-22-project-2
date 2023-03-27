@@ -122,7 +122,7 @@ export default class UserSignUp extends React.Component {
                     <button
                       type="button"
                       className="btn btn-primary btn-block"
-                      // onClick={this.callLogin}
+                      // onClick={this.callSignin}
                     >
                       Join Us
                     </button>
