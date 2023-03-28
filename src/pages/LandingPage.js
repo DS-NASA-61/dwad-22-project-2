@@ -1,9 +1,11 @@
 import React from "react";
+import axios from "axios";
 import UserSignUp from "../components/userSignUp";
 import { BiUserCircle, BiMailSend, BiLock } from "react-icons/bi";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 
 export default class LandingPage extends React.Component {
+  BASE_API_URL = "http://localhost:4000/";
   state = {
     //the state here rembers who logged in
     username: "",
@@ -18,6 +20,11 @@ export default class LandingPage extends React.Component {
     this.props.switchPage("prayerwall");
   };
 
+  // handle password visibility toggle
+  togglePassword = () => {
+    this.setState({ passwordVisible: !this.state.passwordVisible });
+  };
+
   // callLogin = () => {
   //   this.props.login(
   //     this.state.username,
@@ -25,11 +32,6 @@ export default class LandingPage extends React.Component {
   //     this.state.password
   //   );
   // };
-
-  // handle password visibility toggle
-  togglePassword = () => {
-    this.setState({ passwordVisible: !this.state.passwordVisible });
-  };
 
   callLogin = async () => {
     try {
@@ -54,27 +56,27 @@ export default class LandingPage extends React.Component {
     this.setState({ display: "signup" });
   };
 
-  handleUsernameChangeinSignUp = (event) => {
-    this.setState({
-      username: event.target.value,
-    });
-  };
+  signup = async (username, email, password, selectedCellGroup) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await axios.post(this.BASE_API_URL + "signup", {
+          username: username,
+          user_email: email,
+          password: password,
+          cell_group_name: selectedCellGroup,
+        });
 
-  handleEmailChangeinSignUp = (event) => {
-    this.setState({
-      email: event.target.value,
-    });
-  };
-
-  handleCellgroupChangeinSignUp = (event) => {
-    this.setState({
-      cellgroup: event.target.value,
-    });
-  };
-
-  handlePasswordChangeinSignUp = (event) => {
-    this.setState({
-      password: event.target.value,
+        this.setState({
+          username: response.data.username,
+          email: response.data.user_email,
+          password: response.data.password,
+          cellgroup: response.data.cell_group_name,
+          display: "prayerWall",
+        });
+        resolve(response.data);
+      } catch (error) {
+        reject(error);
+      }
     });
   };
 
@@ -179,12 +181,7 @@ export default class LandingPage extends React.Component {
             </div>
           </div>
         ) : (
-          <UserSignUp
-            onUsernameChange={this.handleUsernameChangeinSignUp}
-            onEmailChange={this.handleEmailChangeinSignUp}
-            onCellGroupChange={this.handleCellgroupChangeinSignUp}
-            onPasswordChange={this.handlePasswordChangeinSignUp}
-          />
+          <UserSignUp signup={this.signup} />
         )}
       </React.Fragment>
     );

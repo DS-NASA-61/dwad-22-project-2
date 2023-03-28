@@ -4,6 +4,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import LandingPage from "./pages/LandingPage";
+import UserSignUp from "./components/userSignUp";
 import PrayerWall from "./pages/PrayerWall";
 import Members from "./pages/Members";
 
@@ -14,16 +15,13 @@ export default class Main extends React.Component {
     user: null,
   };
 
-  //   componentDidMount = async () => {
-  //     const response = await axios.get(this.BASE_API_URL + "prayer_request");
-  //     this.setState({
-  //       data: response.data,
-  //     });
-  //   };
-
   renderPage = () => {
     if (this.state.page === "landing") {
       return <LandingPage login={this.login} switchPage={this.switchPage} />;
+    }
+
+    if (this.state.page === "signup") {
+      return <UserSignUp signup={this.signup} switchPage={this.switchPage} />;
     }
 
     if (this.state.page === "prayerwall") {
@@ -74,17 +72,22 @@ export default class Main extends React.Component {
     });
   };
 
-  // tomorrow need to finish sign up function
-  // signup = async(username, email, password, cellgroup) =>{
-  //   const response = await axios.post(this.BASE_API_URL + "signup", {
-  //     username: username,
-  //     user_email: email,
-  //     password: password,
-  //     cellgroup: xxxx
-  //   });
-  // };
-  // becuase in user document is cellgroup_id, so need to find and match...
-  // but also open to see if can jsut change the cellgroup_id to name in the database
+  signup = async (username, email, password, cellgroup) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await axios.post(this.BASE_API_URL + "signup", {
+          username: username,
+          user_email: email,
+          password: password,
+          cell_group_name: cellgroup,
+        });
+        console.log(response);
+        this.setState({ page: "prayerWall", user: response.data });
+      } catch (error) {
+        reject(error);
+      }
+    });
+  };
 
   render() {
     return (

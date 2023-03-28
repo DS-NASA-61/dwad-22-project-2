@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { BiUserCircle, BiLock, BiMailSend } from "react-icons/bi";
-import { BsFillPeopleFill, BsLightbulb } from "react-icons/bs";
+import { BsFillPeopleFill } from "react-icons/bs";
 import WelcomeMessage from "./welcomeMessage";
 
 export default class UserSignUp extends React.Component {
@@ -10,6 +10,9 @@ export default class UserSignUp extends React.Component {
   state = {
     cellGroups: [],
     selectedCellGroup: "",
+    username: "",
+    email: "",
+    password: "",
   };
 
   componentDidMount = async () => {
@@ -25,6 +28,23 @@ export default class UserSignUp extends React.Component {
     this.setState({
       selectedCellGroup: event.target.value,
     });
+  };
+
+  UpdateFormFields = (event) => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
+  callSignup = async () => {
+    try {
+      await this.props.signup(
+        this.state.username,
+        this.state.email,
+        this.state.password,
+        this.state.selectedCellGroup
+      );
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   render() {
@@ -51,7 +71,7 @@ export default class UserSignUp extends React.Component {
                         className="form-control"
                         placeholder="Username"
                         name="username"
-                        onChange={this.props.onUsernameChange}
+                        onChange={this.UpdateFormFields}
                       />
                     </div>
                   </div>
@@ -67,7 +87,7 @@ export default class UserSignUp extends React.Component {
                         className="form-control"
                         placeholder="Email"
                         name="email"
-                        onChange={this.props.onEmailChange}
+                        onChange={this.UpdateFormFields}
                       />
                     </div>
                   </div>
@@ -85,7 +105,7 @@ export default class UserSignUp extends React.Component {
                       value={this.state.selectedCellGroup}
                       onChange={(event) => {
                         this.handleSelectChange(event);
-                        this.props.onCellGroupChange(event);
+                        this.UpdateFormFields(event);
                       }}
                     >
                       <option value={""}>Select Cell Group</option>
@@ -113,7 +133,7 @@ export default class UserSignUp extends React.Component {
                         className="form-control"
                         placeholder="Password"
                         name="password"
-                        onChange={this.props.onPasswordChange}
+                        onChange={this.UpdateFormFields}
                       />
                     </div>
                   </div>
@@ -122,7 +142,7 @@ export default class UserSignUp extends React.Component {
                     <button
                       type="button"
                       className="btn btn-primary btn-block"
-                      // onClick={this.callSignin}
+                      onClick={this.callSignup}
                     >
                       Join Us
                     </button>
