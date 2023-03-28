@@ -34,18 +34,39 @@ export default class UserSignUp extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
+  callSwitchPage = () => {
+    this.props.switchPage("prayerwall");
+  };
+
   callSignup = async () => {
     try {
-      await this.props.signup(
+      await this.props.onSignup(
         this.state.username,
         this.state.email,
         this.state.password,
         this.state.selectedCellGroup
       );
+      this.callSwitchPage();
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
+
+  // handleJoinUsClick = async () => {
+  //   try {
+  //     const response = await axios.post(this.BASE_API_URL + "signup", {
+  //       username: this.state.username,
+  //       user_email: this.state.email,
+  //       password: this.state.password,
+  //       cell_group_name: this.state.selectedCellGroup,
+  //     });
+  //     const userData = response.data.response.ops[0];
+  //     this.props.onSignup(userData);
+  //     console.log("userData-->", userData);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   render() {
     return (

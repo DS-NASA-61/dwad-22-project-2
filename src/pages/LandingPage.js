@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import UserSignUp from "../components/userSignUp";
 import { BiUserCircle, BiMailSend, BiLock } from "react-icons/bi";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
@@ -11,7 +10,7 @@ export default class LandingPage extends React.Component {
     username: "",
     email: "",
     password: "",
-    cellgroup: "",
+    // cellgroup: "",
     display: "login",
     passwordVisible: false,
   };
@@ -56,29 +55,29 @@ export default class LandingPage extends React.Component {
     this.setState({ display: "signup" });
   };
 
-  signup = async (username, email, password, selectedCellGroup) => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const response = await axios.post(this.BASE_API_URL + "signup", {
-          username: username,
-          user_email: email,
-          password: password,
-          cell_group_name: selectedCellGroup,
-        });
-
-        this.setState({
-          username: response.data.username,
-          email: response.data.user_email,
-          password: response.data.password,
-          cellgroup: response.data.cell_group_name,
-          display: "prayerWall",
-        });
-        resolve(response.data);
-      } catch (error) {
-        reject(error);
-      }
-    });
-  };
+  // signup = async (username, email, password, selectedCellGroup) => {
+  //   return new Promise(async (resolve, reject) => {
+  //     try {
+  //       const response = await axios.post(this.BASE_API_URL + "signup", {
+  //         username: username,
+  //         user_email: email,
+  //         password: password,
+  //         cell_group_name: selectedCellGroup,
+  //       });
+  //       this.props.onUserUpdate(response.data);
+  //       this.setState({
+  //         username: response.data.username,
+  //         email: response.data.user_email,
+  //         password: response.data.password,
+  //         cellgroup: response.data.cell_group_name,
+  //         display: "prayerWall",
+  //       });
+  //       resolve(response.data);
+  //     } catch (error) {
+  //       reject(error);
+  //     }
+  //   });
+  // };
 
   render() {
     return (
@@ -181,7 +180,10 @@ export default class LandingPage extends React.Component {
             </div>
           </div>
         ) : (
-          <UserSignUp signup={this.signup} />
+          <UserSignUp
+            onSignup={this.props.onSignup}
+            switchPage={this.props.switchPage}
+          />
         )}
       </React.Fragment>
     );

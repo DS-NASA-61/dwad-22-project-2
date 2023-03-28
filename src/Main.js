@@ -15,23 +15,6 @@ export default class Main extends React.Component {
     user: null,
   };
 
-  renderPage = () => {
-    if (this.state.page === "landing") {
-      return <LandingPage login={this.login} switchPage={this.switchPage} />;
-    }
-
-    if (this.state.page === "signup") {
-      return <UserSignUp signup={this.signup} switchPage={this.switchPage} />;
-    }
-
-    if (this.state.page === "prayerwall") {
-      return <PrayerWall user={this.state.user} />;
-    }
-    if (this.state.page === "members") {
-      return <Members />;
-    }
-  };
-
   switchPage = (currentPage) => {
     this.setState({ page: currentPage });
   };
@@ -72,21 +55,76 @@ export default class Main extends React.Component {
     });
   };
 
-  signup = async (username, email, password, cellgroup) => {
+  // handleUserUpdate = (userData) => {
+  //   this.setState({ user: userData });
+  // };
+
+  // signup = async (username, email, password, selectedCellGroup) => {
+  //   return new Promise(async (resolve, reject) => {
+  //     try {
+  //       const response = await axios.post(this.BASE_API_URL + "signup", {
+  //         username: username,
+  //         user_email: email,
+  //         password: password,
+  //         cell_group_name: selectedCellGroup,
+  //       });
+  //       console.log(response);
+  //       // const userData = response.data.response.ops[0];
+  //       // console.log("userData-->", userData);
+  //       this.setState({
+  //         user: response.data,
+  //         page: "prayerWall",
+  //       });
+  //       resolve(response.data);
+  //       console.log("response.data-->", response.data);
+  //     } catch (error) {
+  //       reject(error);
+  //     }
+  //   });
+  // };
+
+  signup = async (username, email, password, selectedCellGroup) => {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await axios.post(this.BASE_API_URL + "signup", {
           username: username,
           user_email: email,
           password: password,
-          cell_group_name: cellgroup,
+          cell_group_name: selectedCellGroup,
         });
-        console.log(response);
-        this.setState({ page: "prayerWall", user: response.data });
+        this.setState({
+          user: response.data.response,
+          page: "prayerWall",
+        });
+        resolve(response.data.response);
+        console.log("response.data-->", response.data.response);
       } catch (error) {
         reject(error);
       }
     });
+  };
+
+  renderPage = () => {
+    if (this.state.page === "landing") {
+      return (
+        <LandingPage
+          login={this.login}
+          switchPage={this.switchPage}
+          onSignup={this.signup}
+        />
+      );
+    }
+
+    // if (this.state.page === "signup") {
+    //   return <UserSignUp signup={this.login} switchPage={this.switchPage} />;
+    // }
+
+    if (this.state.page === "prayerwall") {
+      return <PrayerWall user={this.state.user} />;
+    }
+    if (this.state.page === "members") {
+      return <Members />;
+    }
   };
 
   render() {
