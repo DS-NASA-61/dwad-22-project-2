@@ -2,7 +2,8 @@ import React from "react";
 import axios from "axios";
 import { BiUserCircle, BiLock, BiMailSend } from "react-icons/bi";
 import { BsFillPeopleFill } from "react-icons/bs";
-import WelcomeMessage from "./welcomeMessage";
+import Swal from "sweetalert2";
+import Modal_img from "../img/Modal_img.webp";
 
 export default class UserSignUp extends React.Component {
   BASE_API_URL = "http://localhost:4000/";
@@ -46,27 +47,19 @@ export default class UserSignUp extends React.Component {
         this.state.password,
         this.state.selectedCellGroup
       );
+      await Swal.fire({
+        title: this.state.username,
+        text: "Welcome to the Safe Space",
+        imageUrl: "C:UsersDoris.Maproject2-love-multipliedsrcimgModal_img.webp",
+        imageWidth: 400,
+        imageHeight: 200,
+        imageAlt: "Custom image",
+      });
       this.callSwitchPage();
     } catch (error) {
       console.log(error);
     }
   };
-
-  // handleJoinUsClick = async () => {
-  //   try {
-  //     const response = await axios.post(this.BASE_API_URL + "signup", {
-  //       username: this.state.username,
-  //       user_email: this.state.email,
-  //       password: this.state.password,
-  //       cell_group_name: this.state.selectedCellGroup,
-  //     });
-  //     const userData = response.data.response.ops[0];
-  //     this.props.onSignup(userData);
-  //     console.log("userData-->", userData);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   render() {
     return (

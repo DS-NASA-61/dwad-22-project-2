@@ -4,7 +4,6 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import LandingPage from "./pages/LandingPage";
-import UserSignUp from "./components/userSignUp";
 import PrayerWall from "./pages/PrayerWall";
 import Members from "./pages/Members";
 
