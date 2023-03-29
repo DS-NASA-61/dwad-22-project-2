@@ -55,30 +55,6 @@ export default class LandingPage extends React.Component {
     this.setState({ display: "signup" });
   };
 
-  // signup = async (username, email, password, selectedCellGroup) => {
-  //   return new Promise(async (resolve, reject) => {
-  //     try {
-  //       const response = await axios.post(this.BASE_API_URL + "signup", {
-  //         username: username,
-  //         user_email: email,
-  //         password: password,
-  //         cell_group_name: selectedCellGroup,
-  //       });
-  //       this.props.onUserUpdate(response.data);
-  //       this.setState({
-  //         username: response.data.username,
-  //         email: response.data.user_email,
-  //         password: response.data.password,
-  //         cellgroup: response.data.cell_group_name,
-  //         display: "prayerWall",
-  //       });
-  //       resolve(response.data);
-  //     } catch (error) {
-  //       reject(error);
-  //     }
-  //   });
-  // };
-
   render() {
     return (
       <React.Fragment>

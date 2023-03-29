@@ -5,7 +5,6 @@ import CreateNewPrayerRequest from "../components/createNewPrayerRequest";
 import PrayerRequests from "../components/prayerRequests";
 import MultiselectPrayFor from "../components/multiselectPrayerFor";
 import MultiselectPrayerTopic from "../components/multiselectPrayerTopic";
-import "./modal.css";
 
 //!!!important note: in JSX, components are used with captial first letter, otherwise cannot be recongnized as JSX hence cannot render
 
@@ -26,8 +25,6 @@ export default class PrayerWall extends React.Component {
   state = {
     active: "prayerRequests",
     data: [],
-
-    showModal: true,
 
     date: new Date(), //for the Calendar Library
     datePicker: new Date(), //for the datePicker Library
@@ -99,15 +96,6 @@ export default class PrayerWall extends React.Component {
     this.setState({
       [event.target.name]: event.target.value,
     });
-  };
-
-  //this needs to be passed as props to UserSignUp.js
-  handleOpenModal = () => {
-    this.setState({ showModal: true });
-  };
-
-  handleCloseModal = () => {
-    this.setState({ showModal: false });
   };
 
   // must be async function to add the new PrayerRequest to the mongo database.
@@ -233,23 +221,6 @@ export default class PrayerWall extends React.Component {
   render() {
     return (
       <React.Fragment>
-        {this.state.showModal && (
-          <div className="modal">
-            <div className="overlay">
-              <div className="modal-content">
-                <h3>Welcome to the Safe Space</h3>
-                <p>placeholder</p>
-                <button
-                  className="btn-close"
-                  type="button"
-                  onClick={this.handleCloseModal}
-                >
-                  CLOSE
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
         <div className="container">
           <div style={{ height: "20px" }}></div>
 

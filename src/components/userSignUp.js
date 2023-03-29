@@ -1,9 +1,11 @@
 import React from "react";
 import axios from "axios";
 import { BiUserCircle, BiLock, BiMailSend } from "react-icons/bi";
+import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { BsFillPeopleFill } from "react-icons/bs";
 import Swal from "sweetalert2";
 import Modal_img from "../img/Modal_img.webp";
+import "./modal.css";
 
 export default class UserSignUp extends React.Component {
   BASE_API_URL = "http://localhost:4000/";
@@ -14,6 +16,7 @@ export default class UserSignUp extends React.Component {
     username: "",
     email: "",
     password: "",
+    passwordVisible: false,
   };
 
   componentDidMount = async () => {
@@ -39,6 +42,11 @@ export default class UserSignUp extends React.Component {
     this.props.switchPage("prayerwall");
   };
 
+  // handle password visibility toggle
+  togglePassword = () => {
+    this.setState({ passwordVisible: !this.state.passwordVisible });
+  };
+
   callSignup = async () => {
     try {
       await this.props.onSignup(
@@ -50,10 +58,11 @@ export default class UserSignUp extends React.Component {
       await Swal.fire({
         title: this.state.username,
         text: "Welcome to the Safe Space",
-        imageUrl: "C:UsersDoris.Maproject2-love-multipliedsrcimgModal_img.webp",
-        imageWidth: 400,
-        imageHeight: 200,
+        imageUrl: Modal_img,
+        // imageWidth: 400,
+        // imageHeight: 200,
         imageAlt: "Custom image",
+        customClass: "custom-swal-bg",
       });
       this.callSwitchPage();
     } catch (error) {
@@ -143,12 +152,23 @@ export default class UserSignUp extends React.Component {
                     <div>
                       <input
                         id="password"
-                        type="text"
+                        type={
+                          this.state.passwordVisible === false
+                            ? "password"
+                            : "text"
+                        }
                         className="form-control"
                         placeholder="Password"
                         name="password"
                         onChange={this.UpdateFormFields}
                       />
+                    </div>
+                    <div className="absolute top-0 right-0 px-3 py-2">
+                      {this.state.passwordVisible === false ? (
+                        <AiFillEyeInvisible onClick={this.togglePassword} />
+                      ) : (
+                        <AiFillEye onClick={this.togglePassword} />
+                      )}
                     </div>
                   </div>
 

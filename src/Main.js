@@ -54,34 +54,6 @@ export default class Main extends React.Component {
     });
   };
 
-  // handleUserUpdate = (userData) => {
-  //   this.setState({ user: userData });
-  // };
-
-  // signup = async (username, email, password, selectedCellGroup) => {
-  //   return new Promise(async (resolve, reject) => {
-  //     try {
-  //       const response = await axios.post(this.BASE_API_URL + "signup", {
-  //         username: username,
-  //         user_email: email,
-  //         password: password,
-  //         cell_group_name: selectedCellGroup,
-  //       });
-  //       console.log(response);
-  //       // const userData = response.data.response.ops[0];
-  //       // console.log("userData-->", userData);
-  //       this.setState({
-  //         user: response.data,
-  //         page: "prayerWall",
-  //       });
-  //       resolve(response.data);
-  //       console.log("response.data-->", response.data);
-  //     } catch (error) {
-  //       reject(error);
-  //     }
-  //   });
-  // };
-
   signup = async (username, email, password, selectedCellGroup) => {
     return new Promise(async (resolve, reject) => {
       try {
