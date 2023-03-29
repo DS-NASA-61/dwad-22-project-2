@@ -168,7 +168,7 @@ export default class PrayerWall extends React.Component {
 
     console.log(response.data);
 
-    this.setState({ data: response.data });
+    this.setState({ data: response.data.requests });
   };
 
   //must use an arrow function here, coz it will automatically bind `this` to the parent component,
@@ -186,7 +186,7 @@ export default class PrayerWall extends React.Component {
     this.setState({ editedPrayerRequest: event.target.value });
   };
 
-  confirmEdit = () => {
+  confirmEdit = async () => {
     //clone
     const modifiedPrayerRequest = { ...this.state.prayerRequestBeingEdited };
     modifiedPrayerRequest.content = this.state.editedPrayerRequest;
@@ -206,6 +206,32 @@ export default class PrayerWall extends React.Component {
       data: modified,
       prayerRequestBeingEdited: null,
     });
+
+    // make PUT request to update the prayer request in the database
+
+    try {
+      console.log(
+        this.BASE_API_URL + "prayer_request/" + `${modifiedPrayerRequest._id}`
+      );
+      const response = await axios.put(
+        this.BASE_API_URL + "prayer_request/" + `${modifiedPrayerRequest._id}`,
+        {
+          date: new Date(modifiedPrayerRequest.date),
+          prayer_topic: modifiedPrayerRequest.prayer_topic,
+          pray_for: modifiedPrayerRequest.pray_for,
+          content: modifiedPrayerRequest.content,
+          answered: modifiedPrayerRequest.answered,
+          response: modifiedPrayerRequest.response,
+          user: {
+            username: modifiedPrayerRequest.user.username,
+            user_email: modifiedPrayerRequest.user.user_email,
+          },
+          title: modifiedPrayerRequest.title,
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   renderContent() {
@@ -221,6 +247,7 @@ export default class PrayerWall extends React.Component {
             editPrayerRequest={this.beginEditPrayerRequest}
             updateEditedPrayerRequest={this.updateEditedPrayerRequest}
             confirmEdit={this.confirmEdit}
+            user={this.props.user}
           />
         );
       } else if (this.state.active === "createNewPrayerRequest") {

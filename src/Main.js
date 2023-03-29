@@ -11,7 +11,7 @@ export default class Main extends React.Component {
   BASE_API_URL = "http://localhost:4000/";
   state = {
     page: "landing",
-    user: { username: "1" },
+    user: null,
   };
 
   switchPage = (currentPage) => {

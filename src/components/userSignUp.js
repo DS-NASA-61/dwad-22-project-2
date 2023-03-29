@@ -56,7 +56,7 @@ export default class UserSignUp extends React.Component {
         this.state.selectedCellGroup
       );
       await Swal.fire({
-        title: this.state.username,
+        title: "Hello, " + `${this.state.username}`,
         text: "Welcome to the Safe Space",
         imageUrl: Modal_img,
         // imageWidth: 400,
