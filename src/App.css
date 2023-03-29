@@ -9,8 +9,12 @@
 .card-text{
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif !important;
   color: #41444b;
+  word-wrap: "break-word";
+  overflow-wrap: "break-word";
 }
-
+.card{
+  word-wrap: break-word;
+}
 
 .btn-primary{
   background-color: #55BB8E !important;

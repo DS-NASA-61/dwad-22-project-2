@@ -67,8 +67,10 @@ export default class PrayerWall extends React.Component {
     newPrayerRequestContent: "",
 
     prayerRequestBeingEdited: null,
-    modifiedTitle: "",
-    modifiedContent: "",
+    editedPrayerRequest: "",
+
+    // modifiedTitle: "",
+    // modifiedContent: "",
 
     newAnswered: false,
   };
@@ -76,7 +78,7 @@ export default class PrayerWall extends React.Component {
   componentDidMount = async () => {
     const response = await axios.get(this.BASE_API_URL + "prayer_request");
     this.setState({
-      data: response.data,
+      data: response.data.requests,
     });
 
     // console.log(response.data);
@@ -176,6 +178,33 @@ export default class PrayerWall extends React.Component {
   beginEditPrayerRequest = (p) => {
     this.setState({
       prayerRequestBeingEdited: p,
+      editedPrayerRequest: p.content,
+    });
+  };
+
+  updateEditedPrayerRequest = (event) => {
+    this.setState({ editedPrayerRequest: event.target.value });
+  };
+
+  confirmEdit = () => {
+    //clone
+    const modifiedPrayerRequest = { ...this.state.prayerRequestBeingEdited };
+    modifiedPrayerRequest.content = this.state.editedPrayerRequest;
+
+    //find index
+    const indexModifiedPrayerRequest = this.state.data.findIndex(function (p) {
+      return p._id === modifiedPrayerRequest._id;
+    });
+
+    // find left and right
+    const left = this.state.data.slice(0, indexModifiedPrayerRequest);
+    const right = this.state.data.slice(indexModifiedPrayerRequest + 1);
+
+    //finally modify the clone
+    const modified = [...left, modifiedPrayerRequest, ...right];
+    this.setState({
+      data: modified,
+      prayerRequestBeingEdited: null,
     });
   };
 
@@ -188,7 +217,10 @@ export default class PrayerWall extends React.Component {
           <PrayerRequests
             data={this.state.data}
             prayerRequestBeingEdited={this.state.prayerRequestBeingEdited}
+            editedPrayerRequest={this.state.editedPrayerRequest}
             editPrayerRequest={this.beginEditPrayerRequest}
+            updateEditedPrayerRequest={this.updateEditedPrayerRequest}
+            confirmEdit={this.confirmEdit}
           />
         );
       } else if (this.state.active === "createNewPrayerRequest") {
