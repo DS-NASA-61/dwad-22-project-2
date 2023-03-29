@@ -1,8 +1,7 @@
 import React from "react";
 import DatePickerFunc from "./datePicker";
-
-// import MultiselectPrayFor from "./multiselectPrayerFor";
-// import MultiselectPrayerTopic from "./multiselectPrayerTopic";
+import MultiselectPrayFor from "./multiselectPrayerFor";
+import MultiselectPrayerTopic from "./multiselectPrayerTopic";
 
 export default function createNewPrayerRequest(props) {
   return (
@@ -13,7 +12,7 @@ export default function createNewPrayerRequest(props) {
       >
         <div className="row">
           <h5>Welcome to The Safe Space Prayer Wall</h5>
-          <div className="col">
+          {/* <div className="col">
             <input
               type="text"
               className="form-control"
@@ -32,7 +31,7 @@ export default function createNewPrayerRequest(props) {
               value={props.newRequested_by_email}
               onChange={props.onUpdateFormField}
             />
-          </div>
+          </div> */}
         </div>
 
         <div
@@ -59,32 +58,34 @@ export default function createNewPrayerRequest(props) {
           style={{ marginTop: "1rem", marginBottom: "1rem" }}
         >
           <div className="col">
-            <input
+            {/* <input
               type="text"
               className="form-control"
               placeholder="Prayer Topic"
               name="newPrayer_topic"
               value={props.newPrayer_topic}
               onChange={props.onUpdateFormField}
-            />
-            {/* <MultiselectPrayerTopic
-              options={props.prayerTopicOptions}
-              onSelect={props.onSelect}
             /> */}
+            <MultiselectPrayerTopic
+              options={props.prayerTopicOptions}
+              onSelect={props.updateMultiSelectPrayerTopics}
+              onRemove={props.removeMultiSelectPrayerTopics}
+            />
           </div>
           <div class="col">
-            <input
+            {/* <input
               type="text"
               className="form-control"
               placeholder="Pray For"
               name="newPray_for"
               value={props.newPray_for}
               onChange={props.onUpdateFormField}
-            />
-            {/* <MultiselectPrayFor
-              options={props.prayForOptions}
-              onSelect={props.onSelect}
             /> */}
+            <MultiselectPrayFor
+              options={props.prayForOptions}
+              onSelect={props.updateMultiSelectPrayerFor}
+              onRemove={props.removeMultiSelectPrayerFor}
+            />
           </div>
         </div>
 

@@ -5,6 +5,7 @@ import CreateNewPrayerRequest from "../components/createNewPrayerRequest";
 import PrayerRequests from "../components/prayerRequests";
 import MultiselectPrayFor from "../components/multiselectPrayerFor";
 import MultiselectPrayerTopic from "../components/multiselectPrayerTopic";
+import { FcLikePlaceholder } from "react-icons/fc";
 
 //!!!important note: in JSX, components are used with captial first letter, otherwise cannot be recongnized as JSX hence cannot render
 
@@ -58,8 +59,8 @@ export default class PrayerWall extends React.Component {
     searchTitle: "",
     searchUserEmail: "",
 
-    newRequested_by: "", //same as user.username
-    newRequested_by_email: "", //same as user.user_email
+    // newRequested_by: "",
+    // newRequested_by_email: "",
     newTitle: "",
     newDate: "",
     newPrayer_topic: "",
@@ -85,7 +86,7 @@ export default class PrayerWall extends React.Component {
   };
 
   setTrueFalse = () => {
-    this.setState({ showPrayerRequestForm: true });
+    this.setState({ showPrayerRequestForm: !this.state.showPrayerRequestForm });
   };
 
   setActive = (page) => {
@@ -104,8 +105,8 @@ export default class PrayerWall extends React.Component {
   addNewPrayerRequest = async () => {
     let response = await axios.post(this.BASE_API_URL + "prayer_request", {
       user: {
-        username: this.state.newRequested_by,
-        user_email: this.state.newRequested_by_email,
+        username: this.props.user.username,
+        user_email: this.props.user.user_email,
       },
       title: this.state.newTitle,
       date: this.state.datePicker,
@@ -138,8 +139,6 @@ export default class PrayerWall extends React.Component {
   };
 
   updateMultiSelectPrayerFor = (selectedItem) => {
-    // should not usd const modified = [...this.state.selectedValues, selectedItem];
-    // because spread operator will crate a new array and result in returning an array of arrays
     this.setState({
       selectedPrayerFor: selectedItem,
     });
@@ -265,8 +264,12 @@ export default class PrayerWall extends React.Component {
           <CreateNewPrayerRequest
             onUpdateFormField={this.updateFormField}
             onAddNewPrayerRequest={this.addNewPrayerRequest}
-            newRequested_by={this.state.newRequested_by}
-            newRequested_by_email={this.state.newRequested_by_email}
+            prayerTopicOptions={this.state.prayerTopicOptions}
+            prayForOptions={this.state.prayForOptions}
+            updateMultiSelectPrayerTopics={this.updateMultiSelectPrayerTopics}
+            removeMultiSelectPrayerTopics={this.removeMultiSelectPrayerTopics}
+            updateMultiSelectPrayerFor={this.updateMultiSelectPrayerFor}
+            removeMultiSelectPrayerFor={this.removeMultiSelectPrayerFor}
             newTitle={this.state.newTitle}
             newPrayer_topic={this.state.newPrayer_topic}
             newPray_for={this.state.newPray_for}
@@ -349,7 +352,11 @@ export default class PrayerWall extends React.Component {
 
             <section className="col" id="prayerwall">
               <header>
-                <h1>My Prayer Wall</h1>
+                <h1>
+                  Prayer Wall for <FcLikePlaceholder className="mb-3 me-1" />
+                  {this.props.user.cellgroup_name}
+                  <FcLikePlaceholder className="mb-3 ms-1" />
+                </h1>
               </header>
               <button
                 className="btn btn-primary btn-sm"
