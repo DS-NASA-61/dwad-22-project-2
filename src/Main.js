@@ -6,6 +6,7 @@ import Navbar from "react-bootstrap/Navbar";
 import LandingPage from "./pages/LandingPage";
 import PrayerWall from "./pages/PrayerWall";
 import Members from "./pages/Members";
+import Swal from "sweetalert2";
 
 export default class Main extends React.Component {
   BASE_API_URL = "http://localhost:4000/";
@@ -50,6 +51,24 @@ export default class Main extends React.Component {
         resolve(response.data);
       } catch (error) {
         reject(error);
+        if (error.response) {
+          //https://axios-http.com/docs/handling_errors
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top",
+            iconColor: "white",
+            customClass: {
+              popup: "colored-toast",
+            },
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+          });
+          await Toast.fire({
+            icon: "error",
+            title: error.response.data.error,
+          });
+        }
       }
     });
   };
@@ -71,6 +90,23 @@ export default class Main extends React.Component {
         console.log("response.data-->", response.data.response);
       } catch (error) {
         reject(error);
+        if (error.response) {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top",
+            iconColor: "white",
+            customClass: {
+              popup: "colored-toast",
+            },
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+          });
+          await Toast.fire({
+            icon: "error",
+            title: error.response.data.error,
+          });
+        }
       }
     });
   };

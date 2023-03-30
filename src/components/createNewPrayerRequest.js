@@ -48,7 +48,7 @@ export default function createNewPrayerRequest(props) {
               onChange={props.onUpdateFormField}
             />
           </div>
-          <div class="col">
+          <div className="col">
             <DatePickerFunc />
           </div>
         </div>
@@ -68,11 +68,11 @@ export default function createNewPrayerRequest(props) {
             /> */}
             <MultiselectPrayerTopic
               options={props.prayerTopicOptions}
-              onSelect={props.updateMultiSelectPrayerTopics}
-              onRemove={props.removeMultiSelectPrayerTopics}
+              onSelect={props.selectNewPrayerTopic}
+              onRemove={props.removeNewPrayerTopic}
             />
           </div>
-          <div class="col">
+          <div className="col">
             {/* <input
               type="text"
               className="form-control"
@@ -83,8 +83,8 @@ export default function createNewPrayerRequest(props) {
             /> */}
             <MultiselectPrayFor
               options={props.prayForOptions}
-              onSelect={props.updateMultiSelectPrayerFor}
-              onRemove={props.removeMultiSelectPrayerFor}
+              onSelect={props.selectNewPrayFor}
+              onRemove={props.removeNewPrayFor}
             />
           </div>
         </div>
@@ -104,7 +104,7 @@ export default function createNewPrayerRequest(props) {
         <div className="row">
           <div class="col-12 d-flex justify-content-end">
             <button
-              type="submit"
+              type="button"
               className="btn btn-primary mb-3"
               onClick={props.onAddNewPrayerRequest}
             >

@@ -1,6 +1,8 @@
 import React from "react";
 import axios from "axios";
-import ReactCalendar from "../components/calendar";
+import Swal from "sweetalert2";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 import CreateNewPrayerRequest from "../components/createNewPrayerRequest";
 import PrayerRequests from "../components/prayerRequests";
 import MultiselectPrayFor from "../components/multiselectPrayerFor";
@@ -28,6 +30,7 @@ export default class PrayerWall extends React.Component {
     data: [],
 
     date: new Date(), //for the Calendar Library
+
     datePicker: new Date(), //for the datePicker Library
     showPrayerRequestForm: false,
     //below state are for filters in side pannel
@@ -57,18 +60,20 @@ export default class PrayerWall extends React.Component {
     selectedPrayerTopics: [], //for multiselect
     selectedPrayerFor: [], //for multiselect
     searchTitle: "",
-    searchUserEmail: "",
+    searchUserName: "",
 
     // newRequested_by: "",
     // newRequested_by_email: "",
     newTitle: "",
     newDate: "",
-    newPrayer_topic: "",
-    newPray_for: "",
+    newPrayer_topic: [],
+    newPray_for: [],
     newPrayerRequestContent: "",
 
     prayerRequestBeingEdited: null,
     editedPrayerRequest: "",
+
+    responseBeingAdded: null,
 
     // modifiedTitle: "",
     // modifiedContent: "",
@@ -107,12 +112,14 @@ export default class PrayerWall extends React.Component {
       user: {
         username: this.props.user.username,
         user_email: this.props.user.user_email,
+        cellgroup_id: this.props.user.cellgroup_id,
       },
       title: this.state.newTitle,
       date: this.state.datePicker,
       prayer_topic: this.state.newPrayer_topic,
       pray_for: this.state.newPray_for,
       content: this.state.newPrayerRequestContent,
+      response: [],
     });
 
     this.setState({
@@ -122,10 +129,10 @@ export default class PrayerWall extends React.Component {
   };
 
   changeDate = (date) => {
-    this.setState({ date });
+    this.setState({ date: date });
   };
 
-  //methods for multiselect
+  //methods for multiselect on side pannel
   //similar concept as handling checkboxes: modify array in React
   updateMultiSelectPrayerTopics = (selectedItem) => {
     // should not usd const modified = [...this.state.selectedValues, selectedItem];
@@ -147,6 +154,23 @@ export default class PrayerWall extends React.Component {
     this.setState({ selectedPrayerFor: [] });
   };
 
+  //methods for multiselect for create new prayerRequest
+  selectNewPrayerTopic = (selectedItem) => {
+    this.setState({ newPrayer_topic: selectedItem });
+  };
+
+  removeNewPrayerTopic = () => {
+    this.setState({ newPrayer_topic: [] });
+  };
+
+  selectNewPrayFor = (selectedItem) => {
+    this.setState({ newPray_for: selectedItem });
+  };
+
+  removeNewPrayFor = () => {
+    this.setState({ newPray_for: [] });
+  };
+
   //add onChange handler for the title when creating new prayer request
   inputTitle = (event) => {
     this.setState({
@@ -161,7 +185,7 @@ export default class PrayerWall extends React.Component {
         title: this.state.searchTitle,
         prayer_topic: this.state.selectedPrayerTopics,
         pray_for: this.state.selectedPrayerFor,
-        user_email: this.state.searchUserEmail,
+        user: { username: this.state.searchUserName },
       },
     });
 
@@ -207,7 +231,6 @@ export default class PrayerWall extends React.Component {
     });
 
     // make PUT request to update the prayer request in the database
-
     try {
       console.log(
         this.BASE_API_URL + "prayer_request/" + `${modifiedPrayerRequest._id}`
@@ -233,6 +256,41 @@ export default class PrayerWall extends React.Component {
     }
   };
 
+  // --- start the response part ---
+  //begin adding response
+  beginToAddResponse = (p) => {
+    this.setState({
+      responseBeingAdded: p,
+    });
+  };
+
+  //sweetalert to handle response
+  handleResponse = async () => {
+    const { value: text } = await Swal.fire({
+      input: "textarea",
+      inputLabel: "Thank you for praying along",
+      inputPlaceholder: "Type your prayer here...",
+      inputAttributes: {
+        "aria-label": "Type your prayer here",
+      },
+      showCancelButton: true,
+    });
+
+    if (text) {
+      const response = await axios.post(
+        this.BASE_API_URL +
+          "prayer_request/" +
+          `${this.state.responseBeingAdded._id}` +
+          "/responses",
+        {
+          content: text,
+          user_id: this.props.user.user_id,
+          username: this.props.user.username,
+        }
+      );
+    }
+  };
+
   renderContent() {
     if (this.state.data.length === 0) {
       return null;
@@ -247,6 +305,8 @@ export default class PrayerWall extends React.Component {
             updateEditedPrayerRequest={this.updateEditedPrayerRequest}
             confirmEdit={this.confirmEdit}
             user={this.props.user}
+            beginToAddResponse={this.beginToAddResponse}
+            handleResponse={this.handleResponse}
           />
         );
       } else if (this.state.active === "createNewPrayerRequest") {
@@ -266,10 +326,10 @@ export default class PrayerWall extends React.Component {
             onAddNewPrayerRequest={this.addNewPrayerRequest}
             prayerTopicOptions={this.state.prayerTopicOptions}
             prayForOptions={this.state.prayForOptions}
-            updateMultiSelectPrayerTopics={this.updateMultiSelectPrayerTopics}
-            removeMultiSelectPrayerTopics={this.removeMultiSelectPrayerTopics}
-            updateMultiSelectPrayerFor={this.updateMultiSelectPrayerFor}
-            removeMultiSelectPrayerFor={this.removeMultiSelectPrayerFor}
+            selectNewPrayerTopic={this.selectNewPrayerTopic}
+            removeNewPrayerTopic={this.removeNewPrayerTopic}
+            selectNewPrayFor={this.selectNewPrayFor}
+            removeNewPrayFor={this.removeNewPrayFor}
             newTitle={this.state.newTitle}
             newPrayer_topic={this.state.newPrayer_topic}
             newPray_for={this.state.newPray_for}
@@ -296,11 +356,9 @@ export default class PrayerWall extends React.Component {
                 <h>place holder for a caption here</h>
               </header>
               <div>
-                <ReactCalendar
-                  onChange={this.changeDate}
-                  value={this.state.date}
-                />
+                <Calendar onChange={this.changeDate} value={this.state.date} />
               </div>
+
               {/* side pannel filters */}
               <div>
                 <h5 style={{ marginTop: "1rem" }}>Search Area</h5>
@@ -332,9 +390,9 @@ export default class PrayerWall extends React.Component {
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Created by (email) "
-                    name="searchUser"
-                    value={this.state.searchUserEmail}
+                    placeholder="Created by (username) "
+                    name="searchUserName"
+                    value={this.state.searchUserName}
                     onChange={this.updateFormField}
                   />
                 </div>

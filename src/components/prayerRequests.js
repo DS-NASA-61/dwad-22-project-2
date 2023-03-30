@@ -9,26 +9,22 @@ import {
   FaPrayingHands,
   FaReply,
 } from "react-icons/fa";
-import { MdAccessibilityNew } from "react-icons/md";
-
-// export default function prayerRequests(props)
+import {
+  MdAccessibilityNew,
+  MdOpenInFull,
+  MdOutlineCloseFullscreen,
+} from "react-icons/md";
 
 export default class prayerRequests extends React.Component {
+  BASE_API_URL = "http://localhost:4000/";
   state = {
-    showResponseForm: false,
+    showResponses: false,
+    displayedPrayerRequestId: null,
   };
 
-  showHideResponseForm = () => {
-    this.setState({ showResponseForm: !this.state.showResponseForm });
+  showHideResponses = () => {
+    this.setState({ showResponses: !this.state.showResponses });
   };
-
-  renderResponseForm() {
-    if (this.state.showResponseForm === false) {
-      return <React.Fragment></React.Fragment>;
-    } else if (this.state.showResponseForm === true) {
-      return <React.Fragment>ResponseForm</React.Fragment>;
-    }
-  }
 
   render() {
     return (
@@ -36,7 +32,7 @@ export default class prayerRequests extends React.Component {
         <div id="all-prayerRequest">
           {/* optional chaining : "?"  */}
           {this.props.data &&
-            this.props.data.map((prayerRequest) => {
+            this.props.data?.map((prayerRequest) => {
               if (
                 !this.props.prayerRequestBeingEdited ||
                 prayerRequest._id !== this.props.prayerRequestBeingEdited._id
@@ -52,9 +48,9 @@ export default class prayerRequests extends React.Component {
                         <div className="row">
                           <div className="row">
                             <h5 className="card-title text-start col d-flex justify-content-between">
-                              {prayerRequest.title}
+                              {prayerRequest?.title}
                             </h5>
-                            {prayerRequest.user.username ==
+                            {prayerRequest?.user.username ==
                             this.props.user.username ? (
                               <div className="col d-flex justify-content-end">
                                 <FaEdit
@@ -86,12 +82,12 @@ export default class prayerRequests extends React.Component {
                               className="text-start fst-italic"
                               style={{ padding: "1.5rem" }}
                             >
-                              {prayerRequest.content}
+                              {prayerRequest?.content}
                             </ul>
                           </div>
                           <p className="card-title text-start col mb-0">
                             <FcBusinesswoman className="me-1" />
-                            {prayerRequest.user.username}{" "}
+                            {prayerRequest?.user.username}{" "}
                             <span style={{ fontSize: "small" }}>
                               needs your prayers for
                             </span>
@@ -104,7 +100,7 @@ export default class prayerRequests extends React.Component {
                               className="me-1"
                               style={{ color: "#55BB8E" }}
                             />{" "}
-                            #{prayerRequest.pray_for}
+                            #{prayerRequest?.pray_for}
                           </p>
                           <p
                             className="card-title text-start mb-0 col"
@@ -114,7 +110,7 @@ export default class prayerRequests extends React.Component {
                               className="me-1"
                               style={{ color: "#55BB8E" }}
                             />{" "}
-                            #{prayerRequest.prayer_topic}
+                            #{prayerRequest?.prayer_topic}
                           </p>
                           <p
                             className="card-title text-start mb-0 col"
@@ -137,15 +133,17 @@ export default class prayerRequests extends React.Component {
                             style={{
                               width: "7rem",
                             }}
-                            onClick={this.showHideResponseForm}
+                            onClick={() => {
+                              this.props.beginToAddResponse(prayerRequest);
+                              this.props.handleResponse(prayerRequest);
+                            }}
                           >
                             Pray for me
                             <FaPrayingHands className="ms-1" />
                           </button>
                         </div>
                       </div>
-                      {/* below render resonse form */}
-                      <div>{this.renderResponseForm()}</div>
+
                       {/* below render resonse */}
                       <div
                         className="container mt-3"
@@ -155,33 +153,51 @@ export default class prayerRequests extends React.Component {
                           backgroundColor: "#F5F5F5",
                         }}
                       >
-                        <div className="d-flex justify-content-start">
-                          Responses
+                        <div className="d-flex align-items-center">
+                          <h5 className="mb-0 me-2">Responses</h5>
+                          {this.state.showResponses === false ? (
+                            <MdOpenInFull onClick={this.showHideResponses} />
+                          ) : (
+                            <MdOutlineCloseFullscreen
+                              onClick={this.showHideResponses}
+                            />
+                          )}
                         </div>
-                        {prayerRequest.response &&
-                          prayerRequest.response.map((response) => {
-                            return (
-                              <div
-                                className="container mt-3 d-flex justify-content-between justify-content-center"
-                                style={{ borderColor: "#FAFAFA" }}
-                                key={response.response_id}
-                              >
-                                <div>
-                                  {response.user_id}
-                                  {response.content}
+                        <div>
+                          {this.state.showResponses &&
+                            prayerRequest?.response?.map((response) => {
+                              return (
+                                <div
+                                  className="container mt-3 d-flex justify-content-between justify-content-center"
+                                  style={{ borderColor: "#FAFAFA" }}
+                                  key={response?.response_id}
+                                >
+                                  <div>
+                                    {response?.username} prayed:{" "}
+                                    {response?.content}
+                                  </div>
+                                  {response.username ==
+                                  this.props.user.username ? (
+                                    <div>
+                                      <FaEdit
+                                        className="me-2"
+                                        style={{ color: "#55BB8E" }}
+                                        // onClick={() => {
+                                        //   props.editPrayerRequest(prayerRequest);
+                                        // }}
+                                      />
+                                      <FaTimesCircle
+                                        className="me-0"
+                                        style={{ color: "#550C18" }}
+                                      />
+                                    </div>
+                                  ) : (
+                                    <></>
+                                  )}
                                 </div>
-                                <div>
-                                  <FaEdit
-                                    className="me-2"
-                                    style={{ color: "#55BB8E" }}
-                                    // onClick={() => {
-                                    //   props.editPrayerRequest(prayerRequest);
-                                    // }}
-                                  />
-                                </div>
-                              </div>
-                            );
-                          })}
+                              );
+                            })}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -191,14 +207,14 @@ export default class prayerRequests extends React.Component {
                   <div
                     className="card mt-3"
                     style={{ borderColor: "#FAFAFA" }}
-                    key={prayerRequest._id}
+                    key={prayerRequest?._id}
                   >
                     <div className="card-body">
                       <div className="container">
                         <div className="row">
                           <div className="row">
                             <h5 className="card-title text-start col-11">
-                              {prayerRequest.title}
+                              {prayerRequest?.title}
                             </h5>
                             <div className="col">
                               <FaEdit
@@ -310,16 +326,16 @@ export default class prayerRequests extends React.Component {
                         <div className="d-flex justify-content-start">
                           Responses
                         </div>
-                        {prayerRequest.response &&
-                          prayerRequest.response.map((response) => {
+                        {prayerRequest?.response &&
+                          prayerRequest?.response?.map((response) => {
                             return (
                               <div
                                 className="container mt-3 d-flex justify-content-between justify-content-center"
                                 style={{ borderColor: "#FAFAFA" }}
-                                key={response.response_id}
+                                key={response?.response_id}
                               >
                                 <div>
-                                  {response.user_id}
+                                  {response?.user_id}
                                   {response.content}
                                 </div>
                                 <div>
