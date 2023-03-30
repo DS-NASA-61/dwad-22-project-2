@@ -8,19 +8,9 @@ import PrayerRequests from "../components/prayerRequests";
 import MultiselectPrayFor from "../components/multiselectPrayerFor";
 import MultiselectPrayerTopic from "../components/multiselectPrayerTopic";
 import { FcLikePlaceholder } from "react-icons/fc";
+import umbrella from "../img/umbrella.jpg";
 
 //!!!important note: in JSX, components are used with captial first letter, otherwise cannot be recongnized as JSX hence cannot render
-
-// onChange = (date) => {
-//   const ISOdate = date.toISOString();
-//   // do stuff with ISOdate
-// };
-// https://github.com/wojtekmaj/react-date-picker/issues/4
-
-//e.g.
-// const myDate = new Date(); // current date and time
-// const isoDate = myDate.toISOString(); // convert to ISODate format
-// console.log(isoDate); // prints something like: "2023-03-25T14:30:00.000Z"
 
 export default class PrayerWall extends React.Component {
   BASE_API_URL = "http://localhost:4000/";
@@ -344,9 +334,7 @@ export default class PrayerWall extends React.Component {
     return (
       <React.Fragment>
         <div className="container">
-          <div style={{ height: "20px" }}></div>
-
-          <div className="row">
+          <div className="row" style={{ height: "93vh" }}>
             <section
               id="side_pannel"
               className="col col-lg-3"
@@ -409,22 +397,40 @@ export default class PrayerWall extends React.Component {
             </section>
 
             <section className="col" id="prayerwall">
-              <header>
-                <h1>
-                  Prayer Wall for <FcLikePlaceholder className="mb-3 me-1" />
-                  {this.props.user.cellgroup_name}
-                  <FcLikePlaceholder className="mb-3 ms-1" />
-                </h1>
-              </header>
-              <button
-                className="btn btn-primary btn-sm"
-                style={{ margin: "1rem" }}
-                onClick={this.setTrueFalse}
+              <div
+                style={{
+                  backgroundImage: `url(${umbrella})`,
+                  backgroundSize: "cover",
+                  backgroundRepeat: "no-repeat",
+                  backgroundPosition: "center",
+                  borderRadius: "4px",
+                  // position: "sticky",
+                }}
               >
-                SHARE YOUR PRAYER REQUEST
-              </button>
+                <header>
+                  <h1 className="pt-5 pb-5" style={{ color: "whitesmoke" }}>
+                    Prayer Wall for <FcLikePlaceholder className="mb-3 me-1" />
+                    {this.props.user.cellgroup_name}
+                    <FcLikePlaceholder className="mb-3 ms-1" />
+                  </h1>
+                </header>
+                <div className="pb-2">
+                  <button
+                    className="btn btn-primary btn-sm"
+                    onClick={this.setTrueFalse}
+                  >
+                    SHARE YOUR PRAYER REQUEST
+                  </button>
+                </div>
+              </div>
+
               <div>{this.renderNewPrayerRequestForm()}</div>
-              <div>{this.renderContent()}</div>
+              <div
+                className="mt-2"
+                style={{ height: "calc(100vh - 270px)", overflowY: "scroll" }}
+              >
+                {this.renderContent()}
+              </div>
             </section>
           </div>
         </div>
