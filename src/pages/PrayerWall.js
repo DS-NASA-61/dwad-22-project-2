@@ -110,6 +110,7 @@ export default class PrayerWall extends React.Component {
       pray_for: this.state.newPray_for,
       content: this.state.newPrayerRequestContent,
       response: [],
+      answered: false,
     });
 
     this.setState({
@@ -175,7 +176,7 @@ export default class PrayerWall extends React.Component {
         title: this.state.searchTitle,
         prayer_topic: this.state.selectedPrayerTopics,
         pray_for: this.state.selectedPrayerFor,
-        user: { username: this.state.searchUserName },
+        // user: { username: this.state.searchUserName },
       },
     });
 
@@ -337,8 +338,12 @@ export default class PrayerWall extends React.Component {
           <div className="row" style={{ height: "93vh" }}>
             <section
               id="side_pannel"
-              className="col col-lg-3"
-              style={{ border: "solid 1px black" }}
+              className="col col-lg-2"
+              style={{
+                // border: "solid 1px #E2E7E4",
+                borderRadius: "5px",
+                backgroundColor: "#F5F5F5",
+              }}
             >
               <header>
                 <h>place holder for a caption here</h>

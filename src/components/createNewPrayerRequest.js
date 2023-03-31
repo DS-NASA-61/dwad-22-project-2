@@ -7,8 +7,13 @@ export default function createNewPrayerRequest(props) {
   return (
     <React.Fragment>
       <form
-        className="container"
-        style={{ width: "40rem", padding: "1rem", border: "solid grey 0.5px" }}
+        className="container mt-4"
+        style={{
+          width: "40rem",
+          padding: "1rem",
+          border: "solid 0.5px #E2E7E4",
+          borderRadius: "5px",
+        }}
       >
         <div className="row">
           <h5>Welcome to The Safe Space Prayer Wall</h5>

@@ -7,13 +7,9 @@ import {
   FaCalendarAlt,
   FaPray,
   FaPrayingHands,
-  FaReply,
 } from "react-icons/fa";
-import {
-  MdAccessibilityNew,
-  MdOpenInFull,
-  MdOutlineCloseFullscreen,
-} from "react-icons/md";
+import { MdAccessibilityNew, MdExpandMore, MdExpandLess } from "react-icons/md";
+import { GiSelfLove } from "react-icons/gi";
 
 export default class prayerRequests extends React.Component {
   BASE_API_URL = "http://localhost:4000/";
@@ -40,7 +36,7 @@ export default class prayerRequests extends React.Component {
                 return (
                   <div
                     className="card mt-3"
-                    style={{ borderColor: "#FAFAFA" }}
+                    style={{ border: "solid 1px #E2E7E4" }}
                     key={prayerRequest._id}
                   >
                     <div className="card-body">
@@ -63,13 +59,13 @@ export default class prayerRequests extends React.Component {
                                   //so can identify which one we are about to edit
                                 />
 
-                                <FaReply
+                                <GiSelfLove
                                   className="me-2"
                                   style={{ color: "#55BB8E" }}
                                 />
                                 <FaTimesCircle
                                   className="me-0"
-                                  style={{ color: "#550C18" }}
+                                  style={{ color: "#F2542D" }}
                                 />
                               </div>
                             ) : (
@@ -156,11 +152,9 @@ export default class prayerRequests extends React.Component {
                         <div className="d-flex align-items-center">
                           <h5 className="mb-0 me-2">Responses</h5>
                           {this.state.showResponses === false ? (
-                            <MdOpenInFull onClick={this.showHideResponses} />
+                            <MdExpandMore onClick={this.showHideResponses} />
                           ) : (
-                            <MdOutlineCloseFullscreen
-                              onClick={this.showHideResponses}
-                            />
+                            <MdExpandLess onClick={this.showHideResponses} />
                           )}
                         </div>
                         <div>
