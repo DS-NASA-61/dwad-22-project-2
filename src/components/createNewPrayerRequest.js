@@ -1,7 +1,10 @@
 import React from "react";
-import DatePickerFunc from "./datePicker";
+// import DatePickerFunc from "./datePicker";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import MultiselectPrayFor from "./multiselectPrayerFor";
 import MultiselectPrayerTopic from "./multiselectPrayerTopic";
+import { BsFillCalendarHeartFill } from "react-icons/bs";
 
 export default function createNewPrayerRequest(props) {
   return (
@@ -17,26 +20,6 @@ export default function createNewPrayerRequest(props) {
       >
         <div className="row">
           <h5>Welcome to The Safe Space Prayer Wall</h5>
-          {/* <div className="col">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Username"
-              name="newRequested_by"
-              value={props.newRequested_by}
-              onChange={props.onUpdateFormField}
-            />
-          </div>
-          <div class="col">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Email"
-              name="newRequested_by_email"
-              value={props.newRequested_by_email}
-              onChange={props.onUpdateFormField}
-            />
-          </div> */}
         </div>
 
         <div
@@ -54,7 +37,11 @@ export default function createNewPrayerRequest(props) {
             />
           </div>
           <div className="col">
-            <DatePickerFunc />
+            <DatePicker
+              selected={props.startDate}
+              onChange={props.handleDateChange}
+              showIcon
+            />
           </div>
         </div>
 
@@ -111,7 +98,10 @@ export default function createNewPrayerRequest(props) {
             <button
               type="button"
               className="btn btn-primary mb-3"
-              onClick={props.onAddNewPrayerRequest}
+              onClick={() => {
+                props.onAddNewPrayerRequest();
+                props.setTrueFalse();
+              }}
             >
               Submit
             </button>

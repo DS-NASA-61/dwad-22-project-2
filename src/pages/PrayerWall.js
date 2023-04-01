@@ -3,6 +3,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import "react-datepicker/dist/react-datepicker.css";
 import CreateNewPrayerRequest from "../components/createNewPrayerRequest";
 import PrayerRequests from "../components/prayerRequests";
 import MultiselectPrayFor from "../components/multiselectPrayerFor";
@@ -21,7 +22,10 @@ export default class PrayerWall extends React.Component {
 
     date: new Date(), //for the Calendar Library
 
-    datePicker: new Date(), //for the datePicker Library
+    // datePicker: new Date(), //for the datePicker Library
+
+    startDate: new Date(),
+
     showPrayerRequestForm: false,
     //below state are for filters in side pannel
     prayerTopicOptions: [
@@ -64,11 +68,14 @@ export default class PrayerWall extends React.Component {
     editedPrayerRequest: "",
 
     responseBeingAdded: null,
+    prayerRequestResponseBeingEdited: null,
+    editedPrayerRequestResponse: "",
 
     // modifiedTitle: "",
     // modifiedContent: "",
 
-    newAnswered: false,
+    prayerRequestAnsweredBeingEdited: null,
+    editedPrayerRequestAnswered: "",
   };
 
   componentDidMount = async () => {
@@ -96,6 +103,11 @@ export default class PrayerWall extends React.Component {
     });
   };
 
+  // for the react-datepicker in create prayer request form
+  handleDateChange = (date) => {
+    this.setState({ startDate: date });
+  };
+
   // must be async function to add the new PrayerRequest to the mongo database.
   addNewPrayerRequest = async () => {
     let response = await axios.post(this.BASE_API_URL + "prayer_request", {
@@ -113,12 +125,17 @@ export default class PrayerWall extends React.Component {
       answered: false,
     });
 
+    console.log("data: ", this.state.data);
+    console.log("response: ", response.data);
+
     this.setState({
-      data: [...this.state.data, response.data[0]],
+      // data: [...this.state.data, response.data[0]],
+      data: [...this.state.data, response.data.result],
       active: "prayerRequests",
     });
   };
 
+  //for the calendar library filter
   changeDate = (date) => {
     this.setState({ date: date });
   };
@@ -172,11 +189,12 @@ export default class PrayerWall extends React.Component {
   filterSearch = async () => {
     const response = await axios.get(this.BASE_API_URL + "prayer_request", {
       params: {
-        cellgroupId: this.props.user.cellgroupId,
+        // cellgroupId: this.props.user.cellgroupId,
         title: this.state.searchTitle,
         prayer_topic: this.state.selectedPrayerTopics,
         pray_for: this.state.selectedPrayerFor,
-        // user: { username: this.state.searchUserName },
+        // date: this.state.date,
+        user: { username: this.state.searchUserName },
       },
     });
 
@@ -249,6 +267,12 @@ export default class PrayerWall extends React.Component {
 
   // --- start the response part ---
   //begin adding response
+  beginEditPrayerRequestResponse = (p) => {
+    this.setState({
+      prayerRequestResponseBeingEdited: p,
+    });
+  };
+
   beginToAddResponse = (p) => {
     this.setState({
       responseBeingAdded: p,
@@ -266,6 +290,7 @@ export default class PrayerWall extends React.Component {
       },
       showCancelButton: true,
     });
+    console.log("text", text);
 
     if (text) {
       const response = await axios.post(
@@ -279,6 +304,93 @@ export default class PrayerWall extends React.Component {
           username: this.props.user.username,
         }
       );
+
+      //clone
+      const modifiedPrayerRequest = {
+        ...this.state.prayerRequestResponseBeingEdited,
+      };
+      // modifiedPrayerRequest.response = this.state.editedPrayerRequestResponse;
+      modifiedPrayerRequest.response = response.data.result;
+
+      //find index
+      const indexModifiedPrayerRequest = this.state.data.findIndex(function (
+        p
+      ) {
+        return p._id === modifiedPrayerRequest._id;
+      });
+
+      //find left and right
+      const left = this.state.data.slice(0, indexModifiedPrayerRequest);
+      const right = this.state.data.slice(indexModifiedPrayerRequest + 1);
+
+      //modify the clone
+      const modified = [...left, modifiedPrayerRequest, ...right];
+      console.log("mod:", modified);
+      this.setState({
+        data: modified,
+        prayerRequestResponseBeingEdited: null,
+      });
+    }
+  };
+
+  // --- start the answered part ---
+  beginEditAnswered = (p) => {
+    this.setState({
+      prayerRequestAnsweredBeingEdited: p,
+      editedPrayerRequestAnswered: p.answered,
+    });
+  };
+
+  handleAnswered = async () => {
+    const result = await Swal.fire({
+      title: "Your prayer has been answered?",
+      input: "radio",
+      inputOptions: {
+        true: "Yes!",
+      },
+      inputValidator: (value) => {
+        if (!value) {
+          return "You need to select something.";
+        }
+      },
+    });
+
+    if (result.isConfirmed) {
+      //clone
+      const modifiedPrayerRequest = {
+        ...this.state.prayerRequestAnsweredBeingEdited,
+      }; //result.value is from sweeralert
+      modifiedPrayerRequest.answered = result.value;
+
+      //findIndex
+      const indexModifiedPrayerRequest = this.state.data.findIndex(function (
+        p
+      ) {
+        return (p._id = modifiedPrayerRequest._id);
+      });
+
+      //find left and right
+      const left = this.state.data.slice(0, indexModifiedPrayerRequest);
+      const right = this.state.data.slice(indexModifiedPrayerRequest + 1);
+
+      //modify the clone
+      const modified = [...left, modifiedPrayerRequest, ...right];
+      this.setState({
+        data: modified,
+        prayerRequestAnsweredBeingEdited: null,
+      });
+      try {
+        const response = await axios.put(
+          this.BASE_API_URL +
+            "prayer_request/" +
+            `${modifiedPrayerRequest._id}` +
+            "/answered",
+          {
+            answered: modifiedPrayerRequest.answered,
+          }
+        );
+        console.log(modifiedPrayerRequest.answered);
+      } catch (error) {}
     }
   };
 
@@ -298,11 +410,19 @@ export default class PrayerWall extends React.Component {
             user={this.props.user}
             beginToAddResponse={this.beginToAddResponse}
             handleResponse={this.handleResponse}
+            beginEditPrayerRequestResponse={this.beginEditPrayerRequestResponse}
+            prayerRequestResponseBeingEdited={
+              this.state.prayerRequestResponseBeingEdited
+            }
+            beginEditAnswered={this.beginEditAnswered}
+            handleAnswered={this.handleAnswered}
+            startDate={this.state.startDate}
           />
         );
-      } else if (this.state.active === "createNewPrayerRequest") {
-        return <CreateNewPrayerRequest />;
       }
+      // else if (this.state.active === "createNewPrayerRequest") {
+      //   return <CreateNewPrayerRequest />;
+      // }
     }
   }
 
@@ -325,6 +445,9 @@ export default class PrayerWall extends React.Component {
             newPrayer_topic={this.state.newPrayer_topic}
             newPray_for={this.state.newPray_for}
             newPrayerRequestContent={this.state.newPrayerRequestContent}
+            startDate={this.state.startDate}
+            handleDateChange={this.handleDateChange}
+            setTrueFalse={this.setTrueFalse}
           />
         </React.Fragment>
       );

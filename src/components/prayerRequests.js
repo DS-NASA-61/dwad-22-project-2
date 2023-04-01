@@ -10,6 +10,7 @@ import {
 } from "react-icons/fa";
 import { MdAccessibilityNew, MdExpandMore, MdExpandLess } from "react-icons/md";
 import { GiSelfLove } from "react-icons/gi";
+import { BsHearts } from "react-icons/bs";
 
 export default class prayerRequests extends React.Component {
   BASE_API_URL = "http://localhost:4000/";
@@ -23,6 +24,7 @@ export default class prayerRequests extends React.Component {
   };
 
   render() {
+    console.log(this.props.data);
     return (
       <React.Fragment>
         <div id="all-prayerRequest">
@@ -45,7 +47,13 @@ export default class prayerRequests extends React.Component {
                           <div className="row">
                             <h5 className="card-title text-start col d-flex justify-content-between">
                               {prayerRequest?.title}
+                              {prayerRequest?.answered ? (
+                                <p>Answered!</p>
+                              ) : (
+                                <></>
+                              )}
                             </h5>
+
                             {prayerRequest?.user.username ==
                             this.props.user.username ? (
                               <div className="col d-flex justify-content-end">
@@ -62,6 +70,10 @@ export default class prayerRequests extends React.Component {
                                 <GiSelfLove
                                   className="me-2"
                                   style={{ color: "#55BB8E" }}
+                                  onClick={() => {
+                                    this.props.beginEditAnswered(prayerRequest);
+                                    this.props.handleAnswered(prayerRequest);
+                                  }}
                                 />
                                 <FaTimesCircle
                                   className="me-0"
@@ -71,6 +83,7 @@ export default class prayerRequests extends React.Component {
                             ) : (
                               <></>
                             )}
+                            {console.log(prayerRequest?.user.username)}
                           </div>
 
                           <div className="card-text">
@@ -112,7 +125,7 @@ export default class prayerRequests extends React.Component {
                             className="card-title text-start mb-0 col"
                             style={{ fontSize: "small" }}
                           >
-                            <FaCalendarAlt /> {prayerRequest.date}
+                            <FaCalendarAlt /> {prayerRequest?.date}
                           </p>
                           <button
                             className="btn btn-primary btn-sm me-2"
@@ -130,11 +143,15 @@ export default class prayerRequests extends React.Component {
                               width: "7rem",
                             }}
                             onClick={() => {
+                              this.props.beginEditPrayerRequestResponse(
+                                prayerRequest
+                              );
                               this.props.beginToAddResponse(prayerRequest);
-                              this.props.handleResponse(prayerRequest);
+                              this.props.handleResponse();
+                              // this.props.handleResponse(prayerRequest);
                             }}
                           >
-                            Pray for me
+                            Response
                             <FaPrayingHands className="ms-1" />
                           </button>
                         </div>
@@ -151,7 +168,7 @@ export default class prayerRequests extends React.Component {
                       >
                         <div className="d-flex align-items-center">
                           <h5 className="mb-0 me-2">Responses</h5>
-                          {this.state.showResponses === false ? (
+                          {!this.state.showResponses ? (
                             <MdExpandMore onClick={this.showHideResponses} />
                           ) : (
                             <MdExpandLess onClick={this.showHideResponses} />
@@ -167,7 +184,13 @@ export default class prayerRequests extends React.Component {
                                   key={response?.response_id}
                                 >
                                   <div>
-                                    {response?.username} prayed:{" "}
+                                    {response.username ==
+                                    this.props.user.username ? (
+                                      <BsHearts style={{ color: "#f27474" }} />
+                                    ) : (
+                                      <></>
+                                    )}
+                                    {response?.username} responded:{" "}
                                     {response?.content}
                                   </div>
                                   {response.username ==
@@ -182,7 +205,7 @@ export default class prayerRequests extends React.Component {
                                       />
                                       <FaTimesCircle
                                         className="me-0"
-                                        style={{ color: "#550C18" }}
+                                        style={{ color: "#F2542D" }}
                                       />
                                     </div>
                                   ) : (
@@ -207,10 +230,45 @@ export default class prayerRequests extends React.Component {
                       <div className="container">
                         <div className="row">
                           <div className="row">
-                            <h5 className="card-title text-start col-11">
+                            <h5 className="card-title text-start col d-flex justify-content-between">
                               {prayerRequest?.title}
+                              {prayerRequest?.answered ? (
+                                <p>Answered!</p>
+                              ) : (
+                                <></>
+                              )}
                             </h5>
-                            <div className="col">
+
+                            {prayerRequest?.user.username ==
+                            this.props.user.username ? (
+                              <div className="col d-flex justify-content-end">
+                                <FaEdit
+                                  className="me-2"
+                                  style={{ color: "#55BB8E" }}
+                                  onClick={() => {
+                                    this.props.editPrayerRequest(prayerRequest);
+                                  }} //use arraw function, so can have parameter in,
+                                  // must put `prayerRequest` since we are using map(prayerRequest),
+                                  //so can identify which one we are about to edit
+                                />
+
+                                <GiSelfLove
+                                  className="me-2"
+                                  style={{ color: "#55BB8E" }}
+                                  onClick={() => {
+                                    this.props.beginEditAnswered(prayerRequest);
+                                    this.props.handleAnswered(prayerRequest);
+                                  }}
+                                />
+                                <FaTimesCircle
+                                  className="me-0"
+                                  style={{ color: "#F2542D" }}
+                                />
+                              </div>
+                            ) : (
+                              <></>
+                            )}
+                            {/* <div className="col">
                               <FaEdit
                                 className="me-2"
                                 style={{ color: "#55BB8E" }}
@@ -220,7 +278,7 @@ export default class prayerRequests extends React.Component {
                               />
 
                               <FaTimesCircle style={{ color: "#550C18" }} />
-                            </div>
+                            </div> */}
                           </div>
 
                           <div className="card-text d-flex align-items-end justify-content-center">
@@ -302,12 +360,18 @@ export default class prayerRequests extends React.Component {
                             style={{
                               width: "7rem",
                             }}
+                            onClick={() => {
+                              this.props.beginToAddResponse(prayerRequest);
+                              this.props.handleResponse();
+                              // this.props.handleResponse(prayerRequest);
+                            }}
                           >
-                            Pray for me
+                            Response
                             <FaPrayingHands className="ms-1" />
                           </button>
                         </div>
                       </div>
+
                       {/* below render resonse */}
                       <div
                         className="container mt-3"
@@ -317,10 +381,15 @@ export default class prayerRequests extends React.Component {
                           backgroundColor: "#F5F5F5",
                         }}
                       >
-                        <div className="d-flex justify-content-start">
-                          Responses
+                        <div className="d-flex align-items-center">
+                          <h5 className="mb-0 me-2">Responses</h5>
+                          {!this.state.showResponses ? (
+                            <MdExpandMore onClick={this.showHideResponses} />
+                          ) : (
+                            <MdExpandLess onClick={this.showHideResponses} />
+                          )}
                         </div>
-                        {prayerRequest?.response &&
+                        {this.state.showResponses &&
                           prayerRequest?.response?.map((response) => {
                             return (
                               <div
@@ -329,18 +398,33 @@ export default class prayerRequests extends React.Component {
                                 key={response?.response_id}
                               >
                                 <div>
-                                  {response?.user_id}
-                                  {response.content}
+                                  {response.username ==
+                                  this.props.user.username ? (
+                                    <BsHearts style={{ color: "#f27474" }} />
+                                  ) : (
+                                    <></>
+                                  )}
+                                  {response?.username} responded:{" "}
+                                  {response?.content}
                                 </div>
-                                <div>
-                                  <FaEdit
-                                    className="me-2"
-                                    style={{ color: "#55BB8E" }}
-                                    // onClick={() => {
-                                    //   props.editPrayerRequest(prayerRequest);
-                                    // }}
-                                  />
-                                </div>
+                                {response.username ==
+                                this.props.user.username ? (
+                                  <div>
+                                    <FaEdit
+                                      className="me-2"
+                                      style={{ color: "#55BB8E" }}
+                                      // onClick={() => {
+                                      //   props.editPrayerRequest(prayerRequest);
+                                      // }}
+                                    />
+                                    <FaTimesCircle
+                                      className="me-0"
+                                      style={{ color: "#F2542D" }}
+                                    />
+                                  </div>
+                                ) : (
+                                  <></>
+                                )}
                               </div>
                             );
                           })}
