@@ -55,9 +55,8 @@ export default class PrayerWall extends React.Component {
     selectedPrayerFor: [], //for multiselect
     searchTitle: "",
     searchUserName: "",
+    searchDate: "",
 
-    // newRequested_by: "",
-    // newRequested_by_email: "",
     newTitle: "",
     newDate: "",
     newPrayer_topic: [],
@@ -137,8 +136,15 @@ export default class PrayerWall extends React.Component {
 
   //for the calendar library filter
   changeDate = (date) => {
-    this.setState({ date: date });
+    this.setState({ date: date }, () => {
+      this.setState({ searchDate: this.state.date });
+    });
   };
+  // changeDate = (date) => {
+  //   this.setState({ date: date });
+  // };
+
+  //for date filter basis date selected in calendar library
 
   //methods for multiselect on side pannel
   //similar concept as handling checkboxes: modify array in React
@@ -189,18 +195,59 @@ export default class PrayerWall extends React.Component {
   filterSearch = async () => {
     const response = await axios.get(this.BASE_API_URL + "prayer_request", {
       params: {
-        // cellgroupId: this.props.user.cellgroupId,
         title: this.state.searchTitle,
         prayer_topic: this.state.selectedPrayerTopics,
         pray_for: this.state.selectedPrayerFor,
-        // date: this.state.date,
+        date: this.state.searchDate,
         user: { username: this.state.searchUserName },
       },
     });
-
-    console.log(response.data);
+    console.log("response.date-->", response.date);
+    console.log("response-->", response);
+    console.log("searchdate-->", this.state.searchDate);
 
     this.setState({ data: response.data.requests });
+  };
+
+  clearSearch = async () => {
+    this.setState(
+      {
+        selectedPrayerTopics: [],
+        selectedPrayerFor: [],
+        searchTitle: "",
+        searchUserName: "",
+        searchDate: "",
+      },
+      () => {
+        // wrap axios call in a callback function to be called after the state update is complete
+        axios
+          .get(this.BASE_API_URL + "prayer_request", {
+            params: {
+              title: this.state.searchTitle,
+              prayer_topic: this.state.selectedPrayerTopics,
+              pray_for: this.state.selectedPrayerFor,
+              date: this.state.searchDate,
+              user: { username: this.state.searchUserName },
+            },
+          })
+          .then((response) => {
+            this.setState({ data: response.data.requests });
+          })
+          .catch((error) => {
+            return alert(error);
+          });
+      }
+    );
+    // const response = await axios.get(this.BASE_API_URL + "prayer_request", {
+    //   params: {
+    //     title: this.state.searchTitle,
+    //     prayer_topic: this.state.selectedPrayerTopics,
+    //     pray_for: this.state.selectedPrayerFor,
+    //     // date: this.state.date,
+    //     // user: { username: this.state.searchUserName },
+    //   },
+    // });
+    // this.setState({ data: response.data.requests });
   };
 
   //must use an arrow function here, coz it will automatically bind `this` to the parent component,
@@ -458,7 +505,7 @@ export default class PrayerWall extends React.Component {
     return (
       <React.Fragment>
         <div className="container">
-          <div className="row" style={{ height: "93vh" }}>
+          <div className="row">
             <section
               id="side_pannel"
               className="col col-lg-2"
@@ -512,13 +559,24 @@ export default class PrayerWall extends React.Component {
                     onChange={this.updateFormField}
                   />
                 </div>
-                <div>
+                <div className="d-flex justify-content-evenly">
                   <button
                     className="btn btn-primary btn-sm"
                     style={{ margin: "1rem" }}
                     onClick={this.filterSearch}
                   >
                     SEARCH
+                  </button>
+                  <button
+                    className="btn btn-primary btn-sm"
+                    style={{ margin: "1rem" }}
+                    onClick={() => {
+                      this.clearSearch();
+                      this.removeMultiSelectPrayerTopics();
+                    }}
+                    // onClick={this.removeMultiSelectPrayerTopics}
+                  >
+                    CLEAR
                   </button>
                 </div>
               </div>

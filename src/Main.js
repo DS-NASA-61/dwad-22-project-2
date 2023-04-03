@@ -7,7 +7,7 @@ import LandingPage from "./pages/LandingPage";
 import PrayerWall from "./pages/PrayerWall";
 import Members from "./pages/Members";
 import Swal from "sweetalert2";
-import image from "./img/image.jpg";
+import background2 from "./img/background2.png";
 
 export default class Main extends React.Component {
   BASE_API_URL = "http://localhost:4000/";
@@ -138,7 +138,18 @@ export default class Main extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <div className="main-background-color mt-3">
+        <div
+          className="main-background-color mt-4"
+          style={{
+            height: "97vh",
+            width: "99vw",
+            backgroundImage: `url(${background2})`,
+            backgroundSize: "cover",
+            // backgroundRepeat: "repeat",
+            backgroundPosition: "center",
+            borderRadius: "4px",
+          }}
+        >
           <Navbar collapseOnSelect variant="light" expand="lg">
             <Container>
               <Navbar.Brand href="#landing">

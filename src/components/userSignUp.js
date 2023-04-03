@@ -142,6 +142,7 @@ export default class UserSignUp extends React.Component {
                           </option>
                         );
                       })}
+                      {console.log(this.state.cellGroups.requests)}
                     </select>
                   </div>
 

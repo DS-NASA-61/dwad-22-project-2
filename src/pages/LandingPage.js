@@ -2,9 +2,7 @@ import React from "react";
 import UserSignUp from "../components/userSignUp";
 import { BiUserCircle, BiMailSend, BiLock } from "react-icons/bi";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
-import image from "../img/image.jpg";
-import person from "../img/person.png";
-import mountain1 from "../img/mountain1.png";
+import sheep from "../img/sheep.png";
 
 export default class LandingPage extends React.Component {
   BASE_API_URL = "http://localhost:4000/";
@@ -62,23 +60,14 @@ export default class LandingPage extends React.Component {
     return (
       <React.Fragment>
         {this.state.display === "login" ? (
-          <div
-            className="row "
-            style={{
-              backgroundImage: `url(${person})`,
-              backgroundSize: "cover",
-              backgroundRepeat: "no-repeat",
-              backgroundPosition: "center",
-              borderRadius: "4px",
-            }}
-          >
-            <div className="d-flex justify-content-center text-center">
-              <div className="card bg-light">
+          <div className="row">
+            <div className="d-flex justify-content-center aligns-items-center text-center">
+              <div className="card bg-light mt-5">
                 <div className="card-body mx-auto">
                   <h4 className="card-title mt-3 text-center">Hey, mate</h4>
                   <p className="text-center">We've been missing you</p>
                   <form>
-                    <div className="form-group input-group  mt-4">
+                    <div className="form-group input-group">
                       <div className="row align-content-center">
                         <BiUserCircle
                           className="me-1"
