@@ -81,7 +81,7 @@ export default class UserSignUp extends React.Component {
             minHeight: "70vh",
           }}
         >
-          <div className="d-flex col-5">
+          <div className="d-flex justify-content-center align-items-center col-lg-5">
             <div className="card text-white mb-3 bg-dark   bg-opacity-75">
               <div className="card-body mx-auto">
                 <h4 className="card-title mt-3 text-center">Hey, mate</h4>
