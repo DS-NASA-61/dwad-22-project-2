@@ -12,10 +12,11 @@ export default function createNewPrayerRequest(props) {
       <form
         className="container mt-4"
         style={{
-          width: "40rem",
+          maxWidth: "40rem",
           padding: "1rem",
-          border: "solid 0.5px #E2E7E4",
+          backgroundColor: "#F5F5F5",
           borderRadius: "5px",
+          border: "solid 2px #E2E7E4",
         }}
       >
         <div className="row">
@@ -23,10 +24,10 @@ export default function createNewPrayerRequest(props) {
         </div>
 
         <div
-          className="row"
+          className="row mt-3"
           style={{ marginTop: "1rem", marginBottom: "1rem" }}
         >
-          <div className="col">
+          <div className="col-md-6 mb-3">
             <input
               type="text"
               className="form-control"
@@ -36,7 +37,7 @@ export default function createNewPrayerRequest(props) {
               onChange={props.onUpdateFormField}
             />
           </div>
-          <div className="col">
+          <div className="col-md-6 mb-3">
             <DatePicker
               selected={props.startDate}
               onChange={props.handleDateChange}
@@ -46,33 +47,17 @@ export default function createNewPrayerRequest(props) {
         </div>
 
         <div
-          className="row"
+          className="row mt-3"
           style={{ marginTop: "1rem", marginBottom: "1rem" }}
         >
-          <div className="col">
-            {/* <input
-              type="text"
-              className="form-control"
-              placeholder="Prayer Topic"
-              name="newPrayer_topic"
-              value={props.newPrayer_topic}
-              onChange={props.onUpdateFormField}
-            /> */}
+          <div className="col-md-6 mb-3">
             <MultiselectPrayerTopic
               options={props.prayerTopicOptions}
               onSelect={props.selectNewPrayerTopic}
               onRemove={props.removeNewPrayerTopic}
             />
           </div>
-          <div className="col">
-            {/* <input
-              type="text"
-              className="form-control"
-              placeholder="Pray For"
-              name="newPray_for"
-              value={props.newPray_for}
-              onChange={props.onUpdateFormField}
-            /> */}
+          <div className="col-md-6 mb-3">
             <MultiselectPrayFor
               options={props.prayForOptions}
               onSelect={props.selectNewPrayFor}
@@ -93,7 +78,7 @@ export default function createNewPrayerRequest(props) {
           ></textarea>
         </div>
 
-        <div className="row">
+        <div className="row mt-3">
           <div class="col-12 d-flex justify-content-end">
             <button
               type="button"

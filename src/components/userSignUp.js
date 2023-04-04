@@ -73,9 +73,16 @@ export default class UserSignUp extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <div className="row justify-content-center">
-          <div className="d-flex justify-content-center text-center">
-            <div className="card text-white bg-success mb-3">
+        <div
+          className="row"
+          style={{
+            justifyContent: "end",
+            alignItems: "center",
+            minHeight: "70vh",
+          }}
+        >
+          <div className="d-flex col-5">
+            <div className="card text-white mb-3 bg-dark   bg-opacity-75">
               <div className="card-body mx-auto">
                 <h4 className="card-title mt-3 text-center">Hey, mate</h4>
                 <p className="text-center">Welcome to the Safe Space</p>
@@ -180,6 +187,13 @@ export default class UserSignUp extends React.Component {
                       onClick={this.callSignup}
                     >
                       Join Us
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-link"
+                      onClick={this.props.backToLogInForm}
+                    >
+                      Back to Log in
                     </button>
                   </div>
                 </form>

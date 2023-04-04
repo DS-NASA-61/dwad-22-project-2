@@ -9,7 +9,9 @@ import PrayerRequests from "../components/prayerRequests";
 import MultiselectPrayFor from "../components/multiselectPrayerFor";
 import MultiselectPrayerTopic from "../components/multiselectPrayerTopic";
 import { FcLikePlaceholder } from "react-icons/fc";
-import umbrella from "../img/umbrella.jpg";
+import worship from "../img/worship.jpg";
+import { Offcanvas } from "react-bootstrap";
+import { AiTwotoneFilter } from "react-icons/ai";
 
 //!!!important note: in JSX, components are used with captial first letter, otherwise cannot be recongnized as JSX hence cannot render
 
@@ -25,6 +27,7 @@ export default class PrayerWall extends React.Component {
     // datePicker: new Date(), //for the datePicker Library
 
     startDate: new Date(),
+    showMenu: false, //for bs offcanvas
 
     showPrayerRequestForm: false,
     //below state are for filters in side pannel
@@ -82,8 +85,6 @@ export default class PrayerWall extends React.Component {
     this.setState({
       data: response.data.requests,
     });
-
-    // console.log(response.data);
   };
 
   setTrueFalse = () => {
@@ -124,8 +125,8 @@ export default class PrayerWall extends React.Component {
       answered: false,
     });
 
-    console.log("data: ", this.state.data);
-    console.log("response: ", response.data);
+    // console.log("data: ", this.state.data);
+    // console.log("response: ", response.data);
 
     this.setState({
       // data: [...this.state.data, response.data[0]],
@@ -288,9 +289,9 @@ export default class PrayerWall extends React.Component {
 
     // make PUT request to update the prayer request in the database
     try {
-      console.log(
-        this.BASE_API_URL + "prayer_request/" + `${modifiedPrayerRequest._id}`
-      );
+      // console.log(
+      //   this.BASE_API_URL + "prayer_request/" + `${modifiedPrayerRequest._id}`
+      // );
       const response = await axios.put(
         this.BASE_API_URL + "prayer_request/" + `${modifiedPrayerRequest._id}`,
         {
@@ -372,12 +373,50 @@ export default class PrayerWall extends React.Component {
 
       //modify the clone
       const modified = [...left, modifiedPrayerRequest, ...right];
-      console.log("mod:", modified);
+      // console.log("mod:", modified);
       this.setState({
         data: modified,
         prayerRequestResponseBeingEdited: null,
       });
     }
+  };
+
+  //handle delete response
+  handleDeleteResponse = async (prayerRequest, response) => {
+    console.log(prayerRequest);
+    const updatedPrayerRequest = {
+      ...prayerRequest,
+      response: prayerRequest.response.filter(
+        (r) => r.response_id !== response.response_id
+      ),
+    };
+
+    //find index of the prayer request
+    const index = [...this.state.data].findIndex(
+      (p) => p._id === prayerRequest._id
+    );
+
+    //make a new data
+    //splice method:newData.splice(index, 1, updatedPrayerRequest);
+    const modifiedPrayerRequest = [
+      ...this.state.data.slice(0, index),
+      updatedPrayerRequest,
+      ...this.state.data.slice(index + 1),
+    ];
+
+    const updatedResponse = await axios.delete(
+      this.BASE_API_URL +
+        "prayer_request/" +
+        `${updatedPrayerRequest._id}` +
+        "/responses/" +
+        `${updatedPrayerRequest.response.response_id}`,
+      {
+        prayer_request_id: updatedPrayerRequest._id,
+        response_id: updatedPrayerRequest.response.response_id,
+      }
+    );
+
+    this.setState({ data: modifiedPrayerRequest });
   };
 
   // --- start the answered part ---
@@ -436,9 +475,39 @@ export default class PrayerWall extends React.Component {
             answered: modifiedPrayerRequest.answered,
           }
         );
-        console.log(modifiedPrayerRequest.answered);
+        // console.log(modifiedPrayerRequest.answered);
       } catch (error) {}
     }
+  };
+
+  //---delete prayer request---
+  handleDeletePrayerRequest = async (prayerRequest) => {
+    //find index by comparing p._id with prayerRequest._id, so need to use ===
+    //using `=` will cause indexDeletePrayerRequest not returning anything
+    const indexDeletePrayerRequest = this.state.data.findIndex(function (p) {
+      return p._id === prayerRequest._id;
+    });
+
+    //make a copy of the array, but skip over the one to be deleted
+    const newArray = [
+      ...this.state.data.slice(0, indexDeletePrayerRequest),
+      ...this.state.data.slice(indexDeletePrayerRequest + 1),
+    ];
+
+    const response = await axios.delete(
+      this.BASE_API_URL + "prayer_request/" + `${prayerRequest._id}`
+    );
+    console.log("delete-->", response);
+
+    //  if (response.status === 200 || response.status === 204) {
+    //   this.setState({
+    //     data: newArray,
+    //   });
+    // } else {
+
+    this.setState({
+      data: newArray,
+    });
   };
 
   renderContent() {
@@ -464,6 +533,8 @@ export default class PrayerWall extends React.Component {
             beginEditAnswered={this.beginEditAnswered}
             handleAnswered={this.handleAnswered}
             startDate={this.state.startDate}
+            handleDeletePrayerRequest={this.handleDeletePrayerRequest}
+            handleDeleteResponse={this.handleDeleteResponse}
           />
         );
       }
@@ -508,9 +579,8 @@ export default class PrayerWall extends React.Component {
           <div className="row">
             <section
               id="side_pannel"
-              className="col col-lg-2"
+              className="d-none d-lg-block col-lg-2"
               style={{
-                // border: "solid 1px #E2E7E4",
                 borderRadius: "5px",
                 backgroundColor: "#F5F5F5",
               }}
@@ -581,18 +651,116 @@ export default class PrayerWall extends React.Component {
                 </div>
               </div>
             </section>
+            <Offcanvas
+              show={this.state.showMenu}
+              onHide={() => this.setState({ showMenu: false })}
+              style={{ width: "80vw" }}
+              placement="start"
+            >
+              <Offcanvas.Header closeButton>
+                <Offcanvas.Title>Search</Offcanvas.Title>
+              </Offcanvas.Header>
+              <Offcanvas.Body>
+                <section
+                  id="side_pannel"
+                  className="col-lg-2 container-fluid"
+                  style={{
+                    borderRadius: "5px",
+                    backgroundColor: "#F5F5F5",
+                  }}
+                >
+                  <header>
+                    <h>place holder for a caption here</h>
+                  </header>
+                  <div>
+                    <Calendar
+                      onChange={this.changeDate}
+                      value={this.state.date}
+                    />
+                  </div>
+
+                  {/* side pannel filters */}
+                  <div>
+                    <h5 style={{ marginTop: "1rem" }}>Search Area</h5>
+                    <div style={{ marginTop: "1rem" }}>
+                      <MultiselectPrayerTopic
+                        options={this.state.prayerTopicOptions}
+                        onSelect={this.updateMultiSelectPrayerTopics}
+                        onRemove={this.removeMultiSelectPrayerTopics}
+                      />
+                    </div>
+                    <div style={{ marginTop: "1rem" }}>
+                      <MultiselectPrayFor
+                        options={this.state.prayForOptions}
+                        onSelect={this.updateMultiSelectPrayerFor}
+                        onRemove={this.removeMultiSelectPrayerFor}
+                      />
+                    </div>
+                    <div style={{ marginTop: "1rem", marginBottom: "1rem" }}>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Search Title"
+                        name="searchTitle"
+                        value={this.state.searchTitle}
+                        onChange={this.updateFormField}
+                      />
+                    </div>
+                    <div style={{ marginTop: "1rem", marginBottom: "1rem" }}>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Created by (username) "
+                        name="searchUserName"
+                        value={this.state.searchUserName}
+                        onChange={this.updateFormField}
+                      />
+                    </div>
+                    <div className="d-flex justify-content-evenly">
+                      <button
+                        className="btn btn-primary btn-sm"
+                        style={{ margin: "1rem" }}
+                        onClick={this.filterSearch}
+                      >
+                        SEARCH
+                      </button>
+                      <button
+                        className="btn btn-primary btn-sm"
+                        style={{ margin: "1rem" }}
+                        onClick={() => {
+                          this.clearSearch();
+                          this.removeMultiSelectPrayerTopics();
+                        }}
+                        // onClick={this.removeMultiSelectPrayerTopics}
+                      >
+                        CLEAR
+                      </button>
+                    </div>
+                  </div>
+                </section>
+              </Offcanvas.Body>
+            </Offcanvas>
 
             <section className="col" id="prayerwall">
               <div
                 style={{
-                  backgroundImage: `url(${umbrella})`,
+                  backgroundImage: `url(${worship})`,
                   backgroundSize: "cover",
                   backgroundRepeat: "no-repeat",
-                  backgroundPosition: "center",
+                  backgroundPosition: "bottom",
                   borderRadius: "4px",
-                  // position: "sticky",
                 }}
               >
+                <div className="d-flex justify-content-start p-2">
+                  <AiTwotoneFilter
+                    className="d-lg-none"
+                    style={{ color: "#55BB8E", fontSize: "larger" }}
+                    onClick={() =>
+                      this.setState({ showMenu: !this.state.showMenu })
+                    }
+                  />
+                </div>
+
                 <header>
                   <h1 className="pt-5 pb-5" style={{ color: "whitesmoke" }}>
                     Prayer Wall for <FcLikePlaceholder className="mb-3 me-1" />
@@ -600,7 +768,7 @@ export default class PrayerWall extends React.Component {
                     <FcLikePlaceholder className="mb-3 ms-1" />
                   </h1>
                 </header>
-                <div className="pb-2">
+                <div className="pb-4">
                   <button
                     className="btn btn-primary btn-sm"
                     onClick={this.setTrueFalse}

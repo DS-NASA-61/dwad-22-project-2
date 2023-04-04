@@ -78,6 +78,11 @@ export default class prayerRequests extends React.Component {
                                 <FaTimesCircle
                                   className="me-0"
                                   style={{ color: "#F2542D" }}
+                                  onClick={() => {
+                                    this.props.handleDeletePrayerRequest(
+                                      prayerRequest
+                                    );
+                                  }}
                                 />
                               </div>
                             ) : (
@@ -127,7 +132,7 @@ export default class prayerRequests extends React.Component {
                           >
                             <FaCalendarAlt /> {prayerRequest?.date}
                           </p>
-                          <button
+                          {/* <button
                             className="btn btn-primary btn-sm me-2"
                             style={{
                               width: "8rem",
@@ -135,7 +140,7 @@ export default class prayerRequests extends React.Component {
                           >
                             Gimme a hug
                             <MdAccessibilityNew className="ms-2" />
-                          </button>
+                          </button> */}
                           <button
                             type="button"
                             className="btn btn-primary btn-sm me-5"
@@ -206,6 +211,11 @@ export default class prayerRequests extends React.Component {
                                       <FaTimesCircle
                                         className="me-0"
                                         style={{ color: "#F2542D" }}
+                                        onClick={() => {
+                                          this.props.handleDeleteResponse(
+                                            prayerRequest
+                                          );
+                                        }}
                                       />
                                     </div>
                                   ) : (
@@ -345,7 +355,7 @@ export default class prayerRequests extends React.Component {
                           >
                             <FaCalendarAlt /> {prayerRequest.date}
                           </p>
-                          <button
+                          {/* <button
                             className="btn btn-primary btn-sm me-2"
                             style={{
                               width: "8rem",
@@ -353,7 +363,7 @@ export default class prayerRequests extends React.Component {
                           >
                             Gimme a hug
                             <MdAccessibilityNew />
-                          </button>
+                          </button> */}
                           <button
                             type="button"
                             className="btn btn-primary btn-sm me-5"
@@ -420,6 +430,14 @@ export default class prayerRequests extends React.Component {
                                     <FaTimesCircle
                                       className="me-0"
                                       style={{ color: "#F2542D" }}
+                                      onClick={() => {
+                                        this.props.handleDeleteResponse(
+                                          prayerRequest
+                                        ); //error uccored here without ()=> : as long as
+                                        //logged in the prayer request created by the logged in
+                                        //user are deleted right away, suspect it's dut to
+                                        //directly calling the function instead of a call back
+                                      }}
                                     />
                                   </div>
                                 ) : (

@@ -1,8 +1,8 @@
 import React from "react";
 import UserSignUp from "../components/userSignUp";
+
 import { BiUserCircle, BiMailSend, BiLock } from "react-icons/bi";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
-import sheep from "../img/sheep.png";
 
 export default class LandingPage extends React.Component {
   BASE_API_URL = "http://localhost:4000/";
@@ -56,14 +56,25 @@ export default class LandingPage extends React.Component {
     this.setState({ display: "signup" });
   };
 
+  backToLogInForm = () => {
+    this.setState({ display: "login" });
+  };
+
   render() {
     return (
       <React.Fragment>
         {this.state.display === "login" ? (
-          <div className="row">
-            <div className="d-flex justify-content-center aligns-items-center text-center">
-              <div className="card bg-light mt-5">
-                <div className="card-body mx-auto">
+          <div
+            className="row"
+            style={{
+              justifyContent: "end",
+              alignItems: "center",
+              minHeight: "70vh",
+            }}
+          >
+            <div className="d-flex col-5">
+              <div className="card bg-light aligns-items-center bg-opacity-50">
+                <div className="card-body">
                   <h4 className="card-title mt-3 text-center">Hey, mate</h4>
                   <p className="text-center">We've been missing you</p>
                   <form>
@@ -160,6 +171,7 @@ export default class LandingPage extends React.Component {
           <UserSignUp
             onSignup={this.props.onSignup}
             switchPage={this.props.switchPage}
+            backToLogInForm={this.backToLogInForm}
           />
         )}
       </React.Fragment>

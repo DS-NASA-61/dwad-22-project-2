@@ -4,20 +4,25 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import LandingPage from "./pages/LandingPage";
+import LogInButton from "./pages/LogInButton";
 import PrayerWall from "./pages/PrayerWall";
 import Members from "./pages/Members";
 import Swal from "sweetalert2";
-import background2 from "./img/background2.png";
+import background3 from "./img/background3.png";
 
 export default class Main extends React.Component {
   BASE_API_URL = "http://localhost:4000/";
   state = {
-    page: "landing",
-    user: null,
+    page: "loginbutton",
+    user: { username: "1" },
   };
 
   switchPage = (currentPage) => {
     this.setState({ page: currentPage });
+  };
+
+  goToLogIn = () => {
+    this.setState({ page: "landing" });
   };
 
   // login = async (username, email, password) => {
@@ -113,12 +118,16 @@ export default class Main extends React.Component {
   };
 
   renderPage = () => {
+    if (this.state.page === "loginbutton") {
+      return <LogInButton goToLogIn={this.goToLogIn} />;
+    }
     if (this.state.page === "landing") {
       return (
         <LandingPage
           login={this.login}
           switchPage={this.switchPage}
           onSignup={this.signup}
+          goToLogIn={this.goToLogIn}
         />
       );
     }
@@ -130,29 +139,35 @@ export default class Main extends React.Component {
     if (this.state.page === "prayerwall") {
       return <PrayerWall user={this.state.user} />;
     }
-    if (this.state.page === "members") {
-      return <Members />;
-    }
   };
 
   render() {
     return (
       <React.Fragment>
         <div
-          className="main-background-color mt-4"
+          className="main-background-color"
           style={{
-            height: "97vh",
-            width: "99vw",
-            backgroundImage: `url(${background2})`,
+            height: "100vh",
+            width: "99wh",
+            backgroundImage: `url(${background3})`,
             backgroundSize: "cover",
-            // backgroundRepeat: "repeat",
+            backgroundRepeat: "repeat",
             backgroundPosition: "center",
             borderRadius: "4px",
           }}
         >
-          <Navbar collapseOnSelect variant="light" expand="lg">
+          <Navbar
+            className="navbar-custom bg-transparent"
+            collapseOnSelect
+            variant="dark"
+            expand="lg"
+            style={{
+              position: "sticky",
+              top: "0",
+            }}
+          >
             <Container>
-              <Navbar.Brand href="#landing">
+              <Navbar.Brand href="#landing" style={{ color: "lightgrey" }}>
                 <div className="div-align-title">
                   <span className="nav-title-spacing">Safe Space logo</span>
                 </div>
@@ -162,13 +177,15 @@ export default class Main extends React.Component {
                 <Nav className="me-auto">
                   <Nav.Link
                     href="#landing"
-                    onClick={() => this.switchPage("landing")} //bug log : must wrap the call to switchPage in an arrow function, to create a new function that will be executed only when the Nav.Link is clicked, otherwise it will execute during rendering.
+                    style={{ color: "white" }}
+                    onClick={() => this.switchPage("loginbutton")} //bug log : must wrap the call to switchPage in an arrow function, to create a new function that will be executed only when the Nav.Link is clicked, otherwise it will execute during rendering.
                   >
                     Home
                   </Nav.Link>
                   {this.state.user ? (
                     <Nav.Link
                       href="#prayerwall"
+                      style={{ color: "lightgrey" }}
                       onClick={() => this.switchPage("prayerwall")}
                     >
                       Prayer Wall
@@ -182,6 +199,7 @@ export default class Main extends React.Component {
                   </Nav.Link> */}
                   <Nav.Link
                     href="#members"
+                    style={{ color: "lightgrey" }}
                     onClick={() => this.switchPage("members")}
                   >
                     Members
