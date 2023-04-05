@@ -6,7 +6,7 @@ import Navbar from "react-bootstrap/Navbar";
 import LandingPage from "./pages/LandingPage";
 import LogInButton from "./pages/LogInButton";
 import PrayerWall from "./pages/PrayerWall";
-import Members from "./pages/Members";
+import AboutUs from "./pages/AboutUs";
 import Swal from "sweetalert2";
 import background3 from "./img/background3.png";
 
@@ -139,6 +139,10 @@ export default class Main extends React.Component {
     if (this.state.page === "prayerwall") {
       return <PrayerWall user={this.state.user} />;
     }
+
+    if (this.state.page === "aboutus") {
+      return <AboutUs />;
+    }
   };
 
   render() {
@@ -198,11 +202,11 @@ export default class Main extends React.Component {
                     Prayer Wall
                   </Nav.Link> */}
                   <Nav.Link
-                    href="#members"
+                    href="#aboutus"
                     style={{ color: "lightgrey" }}
-                    onClick={() => this.switchPage("members")}
+                    onClick={() => this.switchPage("aboutus")}
                   >
-                    Members
+                    AboutUs
                   </Nav.Link>
                 </Nav>
               </Navbar.Collapse>

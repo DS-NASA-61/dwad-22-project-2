@@ -382,26 +382,29 @@ export default class PrayerWall extends React.Component {
   };
 
   //handle delete response
-  handleDeleteResponse = async (prayerRequest, response) => {
-    console.log(prayerRequest);
+  //the 3 arguements in the function comes from where it is called (prayerRequest.js) , so already being iterated in the map.
+  handleDeleteResponse = async (prayerRequest, response, index) => {
+    //basis the index of the response to be deleted, create a new array
+    let newResponseArray = prayerRequest.response.filter(
+      (r, index_r) => index_r !== index
+    );
+
+    // Create a copy of the prayerRequest object and its response array
     const updatedPrayerRequest = {
       ...prayerRequest,
-      response: prayerRequest.response.filter(
-        (r) => r.response_id !== response.response_id
-      ),
+      response: newResponseArray,
     };
 
     //find index of the prayer request
-    const index = [...this.state.data].findIndex(
+    const indexPrayerRequest = this.state.data.findIndex(
       (p) => p._id === prayerRequest._id
     );
 
-    //make a new data
-    //splice method:newData.splice(index, 1, updatedPrayerRequest);
+    //splice method:newData.splice(indexPrayerRequest, 1, updatedPrayerRequest);
     const modifiedPrayerRequest = [
-      ...this.state.data.slice(0, index),
+      ...this.state.data.slice(0, indexPrayerRequest),
       updatedPrayerRequest,
-      ...this.state.data.slice(index + 1),
+      ...this.state.data.slice(indexPrayerRequest + 1),
     ];
 
     const updatedResponse = await axios.delete(
@@ -409,13 +412,10 @@ export default class PrayerWall extends React.Component {
         "prayer_request/" +
         `${updatedPrayerRequest._id}` +
         "/responses/" +
-        `${updatedPrayerRequest.response.response_id}`,
-      {
-        prayer_request_id: updatedPrayerRequest._id,
-        response_id: updatedPrayerRequest.response.response_id,
-      }
+        `${response.response_id}`
     );
 
+    //make a new data
     this.setState({ data: modifiedPrayerRequest });
   };
 

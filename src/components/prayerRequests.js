@@ -181,7 +181,16 @@ export default class prayerRequests extends React.Component {
                         </div>
                         <div>
                           {this.state.showResponses &&
-                            prayerRequest?.response?.map((response) => {
+                            prayerRequest?.response?.map((response, index) => {
+                              console.log(
+                                "🚀 ~ file: prayerRequests.js:185 ~ prayerRequests ~ prayerRequest?.response?.map ~ index:",
+                                index
+                              );
+                              console.log(
+                                "🚀 ~ file: prayerRequests.js:186 ~ prayerRequests ~ prayerRequest?.response?.map ~ response:",
+                                response
+                              );
+
                               return (
                                 <div
                                   className="container mt-3 d-flex justify-content-between justify-content-center"
@@ -208,12 +217,15 @@ export default class prayerRequests extends React.Component {
                                         //   props.editPrayerRequest(prayerRequest);
                                         // }}
                                       />
+
                                       <FaTimesCircle
                                         className="me-0"
                                         style={{ color: "#F2542D" }}
                                         onClick={() => {
                                           this.props.handleDeleteResponse(
-                                            prayerRequest
+                                            prayerRequest,
+                                            response,
+                                            index
                                           );
                                         }}
                                       />
@@ -400,7 +412,16 @@ export default class prayerRequests extends React.Component {
                           )}
                         </div>
                         {this.state.showResponses &&
-                          prayerRequest?.response?.map((response) => {
+                          prayerRequest?.response?.map((response, index) => {
+                            console.log(
+                              "🚀 ~ file: prayerRequests.js:404 ~ prayerRequests ~ render ~ index:",
+                              index
+                            );
+                            console.log(
+                              "🚀 ~ file: prayerRequests.js:456 ~ prayerRequests ~ render ~ response:",
+                              response
+                            );
+
                             return (
                               <div
                                 className="container mt-3 d-flex justify-content-between justify-content-center"
@@ -432,7 +453,9 @@ export default class prayerRequests extends React.Component {
                                       style={{ color: "#F2542D" }}
                                       onClick={() => {
                                         this.props.handleDeleteResponse(
-                                          prayerRequest
+                                          prayerRequest,
+                                          response,
+                                          index
                                         ); //error uccored here without ()=> : as long as
                                         //logged in the prayer request created by the logged in
                                         //user are deleted right away, suspect it's dut to
