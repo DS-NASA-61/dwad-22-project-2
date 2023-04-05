@@ -73,6 +73,9 @@ export default class PrayerWall extends React.Component {
     prayerRequestResponseBeingEdited: null,
     editedPrayerRequestResponse: "",
 
+    prayerRequestResponseContentBeingEdited: null,
+    editedPrayerRequestResponseContent: "",
+
     // modifiedTitle: "",
     // modifiedContent: "",
 
@@ -418,6 +421,9 @@ export default class PrayerWall extends React.Component {
     //make a new data
     this.setState({ data: modifiedPrayerRequest });
   };
+
+  //handle edit response
+  handleEditResponse = async (prayerRequest, response, index) => {};
 
   // --- start the answered part ---
   beginEditAnswered = (p) => {
