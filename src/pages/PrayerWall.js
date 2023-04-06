@@ -120,7 +120,7 @@ export default class PrayerWall extends React.Component {
         cellgroup_id: this.props.user.cellgroup_id,
       },
       title: this.state.newTitle,
-      date: this.state.datePicker,
+      date: this.state.startDate,
       prayer_topic: this.state.newPrayer_topic,
       pray_for: this.state.newPray_for,
       content: this.state.newPrayerRequestContent,
@@ -128,8 +128,8 @@ export default class PrayerWall extends React.Component {
       answered: false,
     });
 
-    // console.log("data: ", this.state.data);
-    // console.log("response: ", response.data);
+    console.log("cellgroup_id: ", this.props.user.cellgroup_id);
+    console.log("date: ", this.props.user.cellgroup_id);
 
     this.setState({
       // data: [...this.state.data, response.data[0]],
