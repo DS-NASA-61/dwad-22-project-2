@@ -73,8 +73,8 @@ export default class PrayerWall extends React.Component {
     prayerRequestResponseBeingEdited: null,
     editedPrayerRequestResponse: "",
 
-    prayerRequestResponseContentBeingEdited: null,
-    editedPrayerRequestResponseContent: "",
+    responseBeingEdited: null,
+    editedResponse: "",
 
     // modifiedTitle: "",
     // modifiedContent: "",
@@ -423,7 +423,70 @@ export default class PrayerWall extends React.Component {
   };
 
   //handle edit response
-  handleEditResponse = async (prayerRequest, response, index) => {};
+
+  // beginEditResponse = (response) => {
+  //   this.setState({
+  //     responseBeingEdited: response,
+  //     editedResponse: response.content,
+  //   });
+  // };
+
+  beginEditResponse = (prayerRequest, response) => {
+    //find id of the response being edited
+    this.setState({
+      responseBeingEdited: response.response_id,
+      editedResponse: response.content,
+    });
+  };
+
+  updateEditedResponse = (event) => {
+    this.setState({ editedResponse: event.target.value });
+  };
+
+  confirmEditResponse = async (prayerRequest, response, index) => {
+    //find index of the prayer request
+    const indexPrayerRequest = this.state.data.findIndex(
+      (p) => p._id === prayerRequest._id
+    );
+
+    //find the id of the response being edited
+
+    response.content = this.state.editedResponse;
+
+    //clone response and update the clone with new content
+    const updatedResponse = { ...response, content: response.content };
+
+    //clone prayerRequest and update its response array with the updatedResponse
+    const updatedPrayerRequest = {
+      ...prayerRequest,
+      // updatedResponse,
+      response: [
+        ...prayerRequest.response.slice(0, index),
+        updatedResponse,
+        ...prayerRequest.response.slice(index + 1),
+      ],
+    };
+
+    //create new data
+    const modifiedPrayerRequest = [
+      ...this.state.data.slice(0, indexPrayerRequest),
+      updatedPrayerRequest,
+      ...this.state.data.slice(indexPrayerRequest + 1),
+    ];
+    //make a new data
+    this.setState({ data: modifiedPrayerRequest, responseBeingEdited: null });
+
+    const newResponse = await axios.put(
+      this.BASE_API_URL +
+        "prayer_request/" +
+        `${updatedPrayerRequest._id}` +
+        "/responses/" +
+        `${response.response_id}`,
+      {
+        content: updatedResponse.content,
+      }
+    );
+  };
 
   // --- start the answered part ---
   beginEditAnswered = (p) => {
@@ -541,6 +604,11 @@ export default class PrayerWall extends React.Component {
             startDate={this.state.startDate}
             handleDeletePrayerRequest={this.handleDeletePrayerRequest}
             handleDeleteResponse={this.handleDeleteResponse}
+            beginEditResponse={this.beginEditResponse}
+            updateEditedResponse={this.updateEditedResponse}
+            confirmEditResponse={this.confirmEditResponse}
+            responseBeingEdited={this.state.responseBeingEdited}
+            editedResponse={this.state.editedResponse}
           />
         );
       }
