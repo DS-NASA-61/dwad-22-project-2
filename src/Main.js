@@ -9,6 +9,7 @@ import PrayerWall from "./pages/PrayerWall";
 import AboutUs from "./pages/AboutUs";
 import Swal from "sweetalert2";
 import background3 from "./img/background3.png";
+import logo2 from "./img/logo2.png";
 
 export default class Main extends React.Component {
   BASE_API_URL = "http://localhost:4000/";
@@ -173,7 +174,9 @@ export default class Main extends React.Component {
             <Container>
               <Navbar.Brand href="#landing" style={{ color: "lightgrey" }}>
                 <div className="div-align-title">
-                  <span className="nav-title-spacing">Safe Space logo</span>
+                  <span className="nav-title-spacing">
+                    <img src={logo2} alt="Image Description" width="100px" />
+                  </span>
                 </div>
               </Navbar.Brand>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
