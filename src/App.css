@@ -7,12 +7,15 @@
   text-align: center;
   background-color: #FAFAFA;
   font-family: 'Nunito Sans', sans-serif;
-  
+  height: 100vh;
 }
 
 .transparent {
   background-color: transparent !important;
 }
+.bg-gradient:hover {
+      transform: translateY(-5px);
+      box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.4);}
 
 
 .card-text{

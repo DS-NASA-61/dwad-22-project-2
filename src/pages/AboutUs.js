@@ -4,45 +4,52 @@ export default class AboutUs extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <div
-          className="container row justify-content-end "
-          style={{ color: "white" }}
-        >
-          <div className="col-lg-5 bg-gradient">
-            <h2>About Us</h2>
-            <p>
-              Welcome to our prayer wall website. We're so glad you're here.
-            </p>{" "}
-            <p>
-              Sometimes it can feel like you're all alone, that no one
-              understands what you're going through. But we believe prayer is a
-              powerful tool that can help bring us closer to God and to each
-              other. As it says in James 5:16, "Therefore confess your sins to
-              each other and pray for each other so that you may be healed. The
-              prayer of a righteous person is powerful and effective." We want
-              to create a community that values authenticity, vulnerability, and
-              empathy, where people can come as they are and find the love and
-              support they need. As it says in Colossians 3:13, "Bear with each
-              other and forgive one another if any of you has a grievance
-              against someone. Forgive as the Lord forgave you." We believe that
-              when we come together in prayer, God listens and responds to our
-              needs. As it says in 1{" "}
-              <span className="bible-verse" style={{ color: "pink" }}>
-                John 5:14-15
-              </span>
-              ,{" "}
-              <span style={{ fontStyle: "italic", fontWeight: "lighter" }}>
-                "This is the confidence we have in approaching God: that if we
-                ask anything according to his will, he hears us. And if we know
-                that he hears us—whatever we ask—we know that we have what we
-                asked of him."
-              </span>{" "}
-              Through prayer, we can find comfort, hope, and healing, and we can
-              lift each other up in times of need. As it says in Ephesians 6:18,
-              "And pray in the Spirit on all occasions with all kinds of prayers
-              and requests. With this in mind, be alert and always keep on
-              praying for all the Lord’s people."
-            </p>
+        <div className="container py-4">
+          <div className="row justify-content-end text-white p-2">
+            <div
+              className="col-lg-5 bg-gradient"
+              style={{
+                backgroundColor: "black",
+                opacity: "70%",
+                borderRadius: "5px",
+                transition: "transform 0.2s ease",
+                boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.3)",
+              }}
+            >
+              <h2 className="pt-3">About Us</h2>
+              <p>
+                Welcome to our prayer wall website. We are grateful that you
+                have joined us here.
+              </p>
+              <p>
+                Every day we have the opportunity to tap into God's power and
+                build a relationship with Him through prayer.He is present at
+                every moment looking to hear from us about everything at any
+                time. If we learn to go to Him in prayer, we will see so many
+                breakthroughs in life.
+              </p>
+              <p>
+                Our community values authenticity, vulnerability, and empathy,
+                and we welcome everyone to come as they are and find the love
+                and support they need.
+              </p>
+              <p>
+                Through prayer, we find comfort, hope, and healing, and we lift
+                each other up in times of need. As it says in{" "}
+                <span className="bible-verse" style={{ color: "#55BB8E" }}>
+                  Ephesians 6:18
+                </span>
+                ,{" "}
+                <span className="bible-verse" style={{ fontStyle: "italic" }}>
+                  "And pray in the Spirit on all occasions with all kinds of
+                  prayers and requests. With this in mind, be alert and always
+                  keep on praying for all the Lord’s people."
+                </span>{" "}
+              </p>
+              <p className="text-right mb-0">
+                <br />
+              </p>
+            </div>
           </div>
         </div>
       </React.Fragment>

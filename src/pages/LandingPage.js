@@ -72,7 +72,7 @@ export default class LandingPage extends React.Component {
               minHeight: "70vh",
             }}
           >
-            <div className="d-flex justify-content-center align-items-center col-lg-5">
+            <div className="d-flex justify-content-center align-items-center col-lg-7">
               <div className="card bg-light aligns-items-center bg-opacity-50">
                 <div className="card-body">
                   <h4 className="card-title mt-3 text-center">Hey, mate</h4>

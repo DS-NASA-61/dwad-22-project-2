@@ -32,9 +32,9 @@ Our website is designed to be user-friendly, with a simple and intuitive layout 
 
 | User Story                                                                                                                     | Acceptance Criteria                                                                                                                                                                                                                                                                                                                     |
 | ------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| As a user, I want to create a new prayer request so that I can receive prayers and support from the community.                 | - I can create a new prayer request by filling out a form that includes the prayer topic and who I am praying for.<br>- The request is saved and displayed on the homepage with the most recent requests at the top.                                                                                                                    |
-| As a user, I want to edit my prayer request so that I can update it with new information.                                      | - I can click on my prayer request from the homepage and navigate to the request page.<br>- On the request page, I can click on an "edit" button that allows me to update the prayer topic and who I am praying for.<br>- The changes are saved and displayed on the homepage and the request page.                                     |
-| As a user, I want to delete my prayer request so that I can remove it from the website.                                        | - I can click on my prayer request from the homepage and navigate to the request page.<br>- On the request page, I can click on a "delete" button that removes the request from the website.<br>- The request is no longer displayed on the homepage or the request page.                                                               |
+| As a user, I want to create a new prayer request so that I can receive prayers and support from the community.                 | - I can create a new prayer request by filling out a form that includes the prayer topic and who I am praying for.<br>- The request is saved and displayed on the homepage.                                                                                                                                                             |
+| As a user, I want to edit my prayer request so that I can update it with new information.                                      | - I can click on the edit icon aboe my prayer request post.<br>- Once click on an "edit" button that allows me to update the prayer request content.<br>- The changes are saved and displayed on the the prayer request page.                                                                                                           |
+| As a user, I want to delete my prayer request so that I can remove it from the website.                                        | - I can click on the delete icon aboe my prayer request post.<br>- Once clicked, it removes the prayer request and the response belongs to it from the website.<br>- The request is no longer displayed on the prayer request page.                                                                                                     |
 | As a user, I want to respond to a prayer request so that I can provide prayers and support to the person who made the request. | - I can click on a prayer request from the homepage and navigate to the request page.<br>- On the request page, I can fill out a form that includes my name and a message of support.<br>- The response is saved and displayed on the request page with the most recent responses at the top.                                           |
 | As a user, I want to edit my response to a prayer request so that I can update it with new information.                        | - I can click on a prayer request from the homepage and navigate to the request page.<br>- On the request page, I can click on an "edit" button next to my response that allows me to update my name or message of support.<br>- The changes are saved and displayed on the request page.                                               |
 | As a user, I want to delete my response to a prayer request so that I can remove it from the website.                          | - I can click on a prayer request from the homepage and navigate to the request page.<br>- On the request page, I can click on a "delete" button next to my response that removes the response from the website.<br>- The response is no longer displayed on the request page.                                                          |
@@ -69,75 +69,138 @@ The color scheme chosen revolves around a brown-based primary color as it repres
 
 #### Fonts
 
-_Inter_ is the font family used for the website as it maintains great readability whether used at small or large sizes. It also helps to create space between lines of text, which is ideal for long text used in coffee recipes.
+_Gill Sans_ has a very distinctive look, with bold and upright letterforms, even stroke weights, and a geometric construction that gives it a modern and minimalist feel. It is known for its legibility and versatility, can also help create a sense of unity and coherence throughout the website, contribute to a sense of professionalism and reliability, which is important for users seeking spiritual guidance and support.
 
-# Getting Started with Create React App
+## Features
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Features
 
-## Available Scripts
+| Feature                             | Description                                                                                                                                          |
+| ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| User Authentication                 | Allows users to create and log into their personal accounts, ensuring their prayer requests and responses to be only visible by their own cellgroup. |
+| Prayer Request Creation             | Enables users to create and post their prayer requests, including choosing a prayer request topic and specifying who they are praying for.           |
+| Prayer Request Editing and Deletion | Allows users to edit or delete their prayer requests as needed, ensuring that their requests remain up-to-date and relevant.                         |
+| Response Creation                   | Enables users to respond to other users' prayer requests, providing support and encouragement to those in need.                                      |
+| Response Editing and Deletion       | Allows users to edit or delete their responses as needed, ensuring that their responses remain appropriate and respectful.                           |
+| Prayer Request Status               | Enables users to change the status of their prayer requests, indicating whether they have been answered or are still ongoing.                        |
+| Prayer Request Search               | Enables users to search prayer requests by created by, prayer topic, prayed for, title and created after date.                                       |
 
-In the project directory, you can run:
+## Limitations and Future Implementations
 
-### `npm start`
+As of now, the website does not have proper security measures in place for user information and user login. In order to ensure the safety and privacy of our users, this feature will be implemented in future updates.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Additionally, there are several potential future implementations for the website, including:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Implementing a notification system to alert users when their prayer requests have been responded to or when someone has commented on their request.
+- Enable user to create their own more diverse and specific prayer request topics to better cater to users' needs and preferences.
 
-### `npm test`
+## Technologies Used
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Backend
 
-### `npm run build`
+1. Javascript
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2. [Express](https://expressjs.com/)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+3. [MongoDB Node Driver](https://www.mongodb.com/docs/drivers/node/current/)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+   - To communicate with MongoDB database
 
-### `npm run eject`
+4. [cors](https://www.npmjs.com/package/cors)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+   - Middleware to enable Cross-Origin Resource Sharing (CORS)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+5. [dotenv](https://www.npmjs.com/package/dotenv)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+   - To allow loading of environment variables from .env file
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+6. [Bcrypt](https://www.npmjs.com/package/bcrypt)
+   - For hashing and validating email
 
-## Learn More
+### Frontend
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. HTML
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+2. CSS
 
-### Code Splitting
+3. Javascript
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+4. [React](https://reactjs.org/)
 
-### Analyzing the Bundle Size
+5. [Bootstrap 5](https://getbootstrap.com/docs/5.0/getting-started/introduction/)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+   - Used for styling website
 
-### Making a Progressive Web App
+6. [React Bootstrap](https://react-bootstrap.github.io/)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+   - Used for styling website
 
-### Advanced Configuration
+7. [Axios](https://github.com/axios/axios)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+   - Used to communicate with Express server to create, read, update and delete data in database
 
-### Deployment
+8. [Font Awesome](https://fontawesome.com/)
+   - Used for icons displayed in website
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+---
 
-### `npm run build` fails to minify
+## Testing
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+The website is tested for responsiveness using Developer Tools on Chrome browser for mobile, tablet and desktop screen widths.
+The test cases can be found [here](readme/test-cases.pdf).
+
+---
+
+## Deployment
+
+### Frontend
+
+The website is hosted using [Netlify](https://www.netlify.com/), deployed directly from the main branch of this Github repository.
+For the detailed deployment steps, you can refer to the blog post on Netlify [here](https://www.netlify.com/blog/2016/09/29/a-step-by-step-guide-deploying-on-netlify/).
+
+### Backend
+
+The Express server is hosted using [Heroku](https://www.heroku.com/), deployed directly from the main branch of the Github repository [here](https://github.com/e0026557/tgc-18-project-2-api).
+For the detailed deployment steps, you can refer to the documentation on Heroku [here](https://devcenter.heroku.com/articles/git#deploy-your-code).
+
+---
+
+## Credits and Acknowledgement
+
+### Logo :
+
+- [Adobe Express Logo Maker](https://www.adobe.com/express/create/logo) - Used to generate brand logo for website
+
+### Fonts :
+
+- [Google Fonts](https://fonts.google.com/) - Used for fonts displayed in website
+
+### Icons :
+
+- [Font Awesome](https://fontawesome.com/) - Used for icons displayed in website
+
+### CSS Spinner :
+
+- [SpinKit](https://tobiasahlin.com/spinkit/) - Adapted CSS spinner for use in website
+
+### Box Shadows:
+
+- [CSS Scan](https://getcssscan.com/css-box-shadow-examples) - For box-shadows used to style website
+
+### Regular Expressions
+
+- [w3resource](https://www.w3resource.com/javascript/form/email-validation.php) - Used Regex for email validation
+
+- [StackOverflow](https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url) - Used Regex for URL validation
+
+### Dynamic Form Input :
+
+- [FreeCodeCamp](https://www.freecodecamp.org/news/build-dynamic-forms-in-react/) - For dynamic form input implementation idea
+
+### Images :
+
+- [Unsplash](https://unsplash.com/) - For coffee images used in website
+
+### Screenshot :
+
+- [CreateMockup.com](https://www.createmockup.com/generate/) - Used to generate responsive website mockup for README file
