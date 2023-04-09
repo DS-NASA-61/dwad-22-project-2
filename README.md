@@ -1,6 +1,6 @@
 # **WALL OF PRAYS**
 
-![Screenshots of WALL OF PRAYS's homepage](PNG)
+<img src="img/mobile responsive mockup.PNG" style="display: block">
 
 Link to demo : [WALL OF PRAYS](https://wall-of-prays.netlify.app/)
 
