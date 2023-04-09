@@ -8,7 +8,8 @@ import Modal_img from "../img/Modal_img.webp";
 import "./modal.css";
 
 export default class UserSignUp extends React.Component {
-  BASE_API_URL = "http://localhost:4000/";
+  //BASE_API_URL = "http://localhost:3000/";
+  BASE_API_URL = "http://localhost:3000/" || process.env.REACT_APP_API_URL;
 
   state = {
     cellGroups: [],

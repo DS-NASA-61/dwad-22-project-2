@@ -5,7 +5,9 @@ import { BiUserCircle, BiMailSend, BiLock } from "react-icons/bi";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 
 export default class LandingPage extends React.Component {
-  BASE_API_URL = "http://localhost:4000/";
+  //BASE_API_URL = "http://localhost:3000/";
+  BASE_API_URL = "http://localhost:3000/" || process.env.REACT_APP_API_URL;
+
   state = {
     //the state here rembers who logged in
     username: "",

@@ -13,7 +13,8 @@ import { GiSelfLove } from "react-icons/gi";
 import { BsHearts } from "react-icons/bs";
 
 export default class prayerRequests extends React.Component {
-  BASE_API_URL = "http://localhost:4000/";
+  //BASE_API_URL = "http://localhost:3000/";
+  BASE_API_URL = "http://localhost:3000/" || process.env.REACT_APP_API_URL;
   state = {
     showResponses: false,
     displayedPrayerRequestId: null,

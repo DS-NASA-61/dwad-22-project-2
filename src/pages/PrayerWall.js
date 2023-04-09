@@ -13,10 +13,9 @@ import worship from "../img/worship.jpg";
 import { Offcanvas } from "react-bootstrap";
 import { AiTwotoneFilter } from "react-icons/ai";
 
-//!!!important note: in JSX, components are used with captial first letter, otherwise cannot be recongnized as JSX hence cannot render
-
 export default class PrayerWall extends React.Component {
-  BASE_API_URL = "http://localhost:4000/";
+  //BASE_API_URL = "http://localhost:3000/";
+  BASE_API_URL = "http://localhost:3000/" || process.env.REACT_APP_API_URL;
 
   state = {
     active: "prayerRequests",
@@ -88,6 +87,7 @@ export default class PrayerWall extends React.Component {
     this.setState({
       data: response.data.requests,
     });
+    console.log(this.BASE_API_URL);
   };
 
   setTrueFalse = () => {

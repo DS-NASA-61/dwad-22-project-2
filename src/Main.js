@@ -12,7 +12,9 @@ import background3 from "./img/background3.png";
 import logo2 from "./img/logo2.png";
 
 export default class Main extends React.Component {
-  BASE_API_URL = "http://localhost:4000/";
+  //BASE_API_URL = "http://localhost:3000/";
+  BASE_API_URL = "http://localhost:3000/" || process.env.REACT_APP_API_URL;
+
   state = {
     page: "loginbutton",
     user: null,
@@ -43,6 +45,7 @@ export default class Main extends React.Component {
   // these three are passed from child
   // wrap the axios.post call in a Promise to enable "login and then switch" to happen one after another
   login = async (username, email, password) => {
+    console.log("login-->", process.env.REACT_APP_API_URL);
     return new Promise(async (resolve, reject) => {
       try {
         const response = await axios.post(this.BASE_API_URL + "login", {
@@ -50,7 +53,7 @@ export default class Main extends React.Component {
           user_email: email,
           password: password,
         });
-        // console.log(response);
+
         this.setState({
           page: "prayerWall",
           user: response.data,
