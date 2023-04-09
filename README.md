@@ -1,6 +1,6 @@
 # **WALL OF PRAYS**
 
-<img src="img/mobile responsive mockup.PNG" style="display: block">
+![Screenshot of WALL OF PRAYS's homepage](./src/img/mobile-responsive-mockup.png)
 
 Link to demo : [WALL OF PRAYS](https://wall-of-prays.netlify.app/)
 
@@ -30,42 +30,40 @@ Our website is designed to be user-friendly, with a simple and intuitive layout 
 - To connect with others who share their faith and beliefs, and to feel a sense of belonging and connection.
 - To find emotional and spiritual support during times of stress, hardship, and uncertainty.
 
-| User Story                                                                                                                     | Acceptance Criteria                                                                                                                                                                                                                                                                                                                     |
-| ------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| As a user, I want to create a new prayer request so that I can receive prayers and support from the community.                 | - I can create a new prayer request by filling out a form that includes the prayer topic and who I am praying for.<br>- The request is saved and displayed on the homepage.                                                                                                                                                             |
-| As a user, I want to edit my prayer request so that I can update it with new information.                                      | - I can click on the edit icon aboe my prayer request post.<br>- Once click on an "edit" button that allows me to update the prayer request content.<br>- The changes are saved and displayed on the the prayer request page.                                                                                                           |
-| As a user, I want to delete my prayer request so that I can remove it from the website.                                        | - I can click on the delete icon aboe my prayer request post.<br>- Once clicked, it removes the prayer request and the response belongs to it from the website.<br>- The request is no longer displayed on the prayer request page.                                                                                                     |
-| As a user, I want to respond to a prayer request so that I can provide prayers and support to the person who made the request. | - I can click on a prayer request from the homepage and navigate to the request page.<br>- On the request page, I can fill out a form that includes my name and a message of support.<br>- The response is saved and displayed on the request page with the most recent responses at the top.                                           |
-| As a user, I want to edit my response to a prayer request so that I can update it with new information.                        | - I can click on a prayer request from the homepage and navigate to the request page.<br>- On the request page, I can click on an "edit" button next to my response that allows me to update my name or message of support.<br>- The changes are saved and displayed on the request page.                                               |
-| As a user, I want to delete my response to a prayer request so that I can remove it from the website.                          | - I can click on a prayer request from the homepage and navigate to the request page.<br>- On the request page, I can click on a "delete" button next to my response that removes the response from the website.<br>- The response is no longer displayed on the request page.                                                          |
-| As a user, I want to mark my prayer request as "answered" so that I can indicate that my prayers have been heard.              | - I can click on my prayer request from the homepage and navigate to the request page.<br>- On the request page, I can click on a "mark as answered" button that changes the status of the request to "answered".<br>- The request is displayed on the homepage and the request page with a label indicating that it has been answered. |
-| As a user, I want to view the prayer requests and responses of other users so that I can offer prayers and support.            | - I can navigate to the homepage and view a list of the most recent prayer requests.<br>- I can click on a request to navigate to the request page and view the original request and any responses.<br>- I can offer my own response by filling out a form on the request page.                                                         |
+| User Story                                                                                                                     | Acceptance Criteria                                                                                                                                                                                                                                                                   |
+| ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| As a user, I want to create a new prayer request so that I can receive prayers and support from the community.                 | - I can create a new prayer request by filling out a form that includes the prayer topic and who I am praying for.<br>- The request is saved and displayed on the Prayer Wall page.                                                                                                   |
+| As a user, I want to edit my prayer request so that I can update it with new information.                                      | - I can edit prayer request created by me by clicking on the edit icon and eidt in the text box.<br>- The request is saved and displayed on the Prayer Wall page.                                                                                                                     |
+| As a user, I want to delete my prayer request so that I can remove it from the website.                                        | - I can click on the delete icon aboe my prayer request post.<br>- Once clicked, it removes the prayer request and the response belongs to it from the website.<br>- The request is no longer displayed on the Prayer Wall page.                                                      |
+| As a user, I want to respond to a prayer request so that I can provide prayers and support to the person who made the request. | - I can click on the "response" button and write my response in the pop up form.<br>- The response is saved and displayed on the Prayer Wall page below the prayer requesst and able to fold and expand.                                                                              |
+| As a user, I want to edit my response to a prayer request so that I can update it with new information.                        | - I can click on an "edit" button next to my response that allows me to update my name or message of support.<br>- The changes are saved and displayed on the Prayer Wall page.                                                                                                       |
+| As a user, I want to delete my response to a prayer request so that I can remove it from the website.                          | - I can click on a "delete" button next to my response that removes the response from the website.<br>- The response is no longer displayed on the Prayer Wall page.                                                                                                                  |
+| As a user, I want to mark my prayer request as "answered" so that I can indicate that my prayers have been heard.              | - I can click on the heart shaped icon above my prayer request, on the popup alert, clicked on "answered" that changes the status of the request to "answered".<br>- The request is displayed on the homepage and the request page with a label indicating that it has been answered. |
+| As a user, I want to search and view the prayer requests and responses of other users so that I can offer prayers and support. | - On the side pannel I can search for prayer topic, prayed for , title, created by whom and created date after.<br>- I can clear my search result by clicking on the clear button.                                                                                                    |
 
 ### Structure and Skeleton
 
 #### Database
 
-![ERD Diagram](readme/ERD-diagram.png)
+![ERD Diagram](./src/img/erd.png)
 
 Entity-Relationship Diagram (ERD) is drawn to demostrate the various relationships between entities for the website prior to modelling the database in MongoDB.
 
 An Express server is set up and deployed to [Render](https://render.com/), where API endpoints are accessible via the base URL at [https://ds-wallofprays.onrender.com].
 
-#### Sitemap
-
-![Sitemap](readme/sitemap.png)
-
 #### Wireframes
 
-[Wireframes](readme/wireframes.pdf)
+![Wireframes](./src/img/wireframe.png)
 
 ### Design Decisions
 
 #### Color scheme
 
-![Screenshot of color scheme](readme/color-scheme.png)
+![Screenshot of color scheme](./src/img/color-scheme.png)
 
-The color scheme chosen revolves around a brown-based primary color as it represents the color of coffee, which is the theme of the website. Brown also implies friendliness and simplicity, which matches the look that the website aims to achieve.
+The neutral shades of #F5F5F5 and #7F7F7F provide a clean and professional feel to the website, while the warmer tones of #55BB8E and #A2442D add a touch of vibrancy and energy.
+The color #55BB8E, a shade of green, is associated with growth, renewal, and harmony, which are all relevant to the theme of prayer and spiritual well-being. Meanwhile, the color #A2442D, a shade of red, is associated with passion, energy, and urgency, which are also relevant to the theme of prayer requests and responses.
+Overall, this color scheme is a good fit for the website as it creates a welcoming and calming atmosphere while still conveying a sense of urgency and importance for prayer requests and responses.
 
 #### Fonts
 
@@ -77,7 +75,7 @@ _Gill Sans_ has a very distinctive look, with bold and upright letterforms, even
 
 | Feature                             | Description                                                                                                                                          |
 | ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| User Authentication                 | Allows users to create and log into their personal accounts, ensuring their prayer requests and responses to be only visible by their own cellgroup. |
+| User Login/ Signup                  | Allows users to create and log into their personal accounts, ensuring their prayer requests and responses to be only visible by their own cellgroup. |
 | Prayer Request Creation             | Enables users to create and post their prayer requests, including choosing a prayer request topic and specifying who they are praying for.           |
 | Prayer Request Editing and Deletion | Allows users to edit or delete their prayer requests as needed, ensuring that their requests remain up-to-date and relevant.                         |
 | Response Creation                   | Enables users to respond to other users' prayer requests, providing support and encouragement to those in need.                                      |
@@ -93,6 +91,9 @@ Additionally, there are several potential future implementations for the website
 
 - Implementing a notification system to alert users when their prayer requests have been responded to or when someone has commented on their request.
 - Enable user to create their own more diverse and specific prayer request topics to better cater to users' needs and preferences.
+- Implementing verse of the day by connecting to an extenal bible api
+- Implementing posting prayer request anonymously.
+- Improve on the clear search result feature.
 
 ## Technologies Used
 
@@ -113,9 +114,6 @@ Additionally, there are several potential future implementations for the website
 5. [dotenv](https://www.npmjs.com/package/dotenv)
 
    - To allow loading of environment variables from .env file
-
-6. [Bcrypt](https://www.npmjs.com/package/bcrypt)
-   - For hashing and validating email
 
 ### Frontend
 
@@ -139,15 +137,25 @@ Additionally, there are several potential future implementations for the website
 
    - Used to communicate with Express server to create, read, update and delete data in database
 
-8. [Font Awesome](https://fontawesome.com/)
-   - Used for icons displayed in website
+8. [Google Fonts](https://fonts.google.com/)
 
----
+   - Used for fonts displayed in website
 
-## Testing
+9. [Sweetalert2](https://sweetalert2.github.io/)
 
-The website is tested for responsiveness using Developer Tools on Chrome browser for mobile, tablet and desktop screen widths.
-The test cases can be found [here](readme/test-cases.pdf).
+   - Used for pop up form and alert displayed in website
+
+10. [React Icons](https://react-icons.github.io/react-icons)
+
+    - Used for icons displayed in website
+
+11. [React calendar](https://www.npmjs.com/package/react-calenda)
+
+    - Used for calendar displayed in website
+
+12. [React datepicker](https://www.npmjs.com/package/react-datepicker)
+
+    - Used for datepicker displayed in website
 
 ---
 
@@ -160,8 +168,8 @@ For the detailed deployment steps, you can refer to the blog post on Netlify [he
 
 ### Backend
 
-The Express server is hosted using [Heroku](https://www.heroku.com/), deployed directly from the main branch of the Github repository [here](https://github.com/e0026557/tgc-18-project-2-api).
-For the detailed deployment steps, you can refer to the documentation on Heroku [here](https://devcenter.heroku.com/articles/git#deploy-your-code).
+The Express server is hosted using [Render](https://render.com/), deployed directly from the main branch of the Github repository [here](https://github.com/DS-NASA-61/dwad-22-project-2-api).
+For the detailed deployment steps, you can refer to the documentation on Heroku [here](https://render.com/docs).
 
 ---
 
@@ -169,7 +177,7 @@ For the detailed deployment steps, you can refer to the documentation on Heroku 
 
 ### Logo :
 
-- [Adobe Express Logo Maker](https://www.adobe.com/express/create/logo) - Used to generate brand logo for website
+- [Canva](https://www.canva.cn/) - Used to generate brand logo for website
 
 ### Fonts :
 
@@ -177,30 +185,16 @@ For the detailed deployment steps, you can refer to the documentation on Heroku 
 
 ### Icons :
 
-- [Font Awesome](https://fontawesome.com/) - Used for icons displayed in website
-
-### CSS Spinner :
-
-- [SpinKit](https://tobiasahlin.com/spinkit/) - Adapted CSS spinner for use in website
-
-### Box Shadows:
-
-- [CSS Scan](https://getcssscan.com/css-box-shadow-examples) - For box-shadows used to style website
+- [React Icons](https://react-icons.github.io/react-icons) - Used for icons displayed in website
 
 ### Regular Expressions
 
 - [w3resource](https://www.w3resource.com/javascript/form/email-validation.php) - Used Regex for email validation
 
-- [StackOverflow](https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url) - Used Regex for URL validation
-
-### Dynamic Form Input :
-
-- [FreeCodeCamp](https://www.freecodecamp.org/news/build-dynamic-forms-in-react/) - For dynamic form input implementation idea
-
 ### Images :
 
-- [Unsplash](https://unsplash.com/) - For coffee images used in website
+- [Unsplash](https://unsplash.com/) - For images used in website
 
 ### Screenshot :
 
-- [CreateMockup.com](https://www.createmockup.com/generate/) - Used to generate responsive website mockup for README file
+- [Website Mockup Generator](https://websitemockupgenerator.com/) - Used to generate responsive website mockup for README file
