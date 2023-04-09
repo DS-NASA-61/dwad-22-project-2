@@ -26,7 +26,6 @@
 }
 .card{
   word-wrap: break-word;
-  
 }
 
 .btn-primary{
@@ -34,9 +33,9 @@
   border-color: #55BB8E !important;
 }
 
-.card-body:hover{
+/* .card-body:hover{
   box-shadow: 1px 1px 5px 5px #dee4e0;
-}
+} */
 
 .searchWrapper{
   background-color: white;

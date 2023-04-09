@@ -156,7 +156,7 @@ export default class Main extends React.Component {
           className="main-background-color"
           style={{
             height: "100vh",
-            width: "99wh",
+            // width: "99wh",
             backgroundImage: `url(${background3})`,
             backgroundSize: "cover",
             backgroundRepeat: "repeat",

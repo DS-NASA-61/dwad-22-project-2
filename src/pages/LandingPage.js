@@ -69,12 +69,12 @@ export default class LandingPage extends React.Component {
           <div
             className="row"
             style={{
-              justifyContent: "end",
-              alignItems: "center",
               minHeight: "70vh",
+              maxWidth: "80%",
+              justifyContent: "end",
             }}
           >
-            <div className="d-flex justify-content-center align-items-center col-lg-7">
+            <div className="d-flex justify-content-end align-items-center">
               <div className="card bg-light aligns-items-center bg-opacity-50">
                 <div className="card-body">
                   <h4 className="card-title mt-3 text-center">Hey, mate</h4>

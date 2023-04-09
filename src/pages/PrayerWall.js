@@ -660,15 +660,20 @@ export default class PrayerWall extends React.Component {
               }}
             >
               <header>
-                <h>place holder for a caption here</h>
+                <h5>Search Area</h5>
               </header>
+
               <div>
-                <Calendar onChange={this.changeDate} value={this.state.date} />
+                <p style={{ marginBottom: "0" }}>created after this date</p>
+                <Calendar
+                  style={{ marginTop: "0" }}
+                  onChange={this.changeDate}
+                  value={this.state.date}
+                />
               </div>
 
               {/* side pannel filters */}
               <div>
-                <h5 style={{ marginTop: "1rem" }}>Search Area</h5>
                 <div style={{ marginTop: "1rem" }}>
                   <MultiselectPrayerTopic
                     options={this.state.prayerTopicOptions}
@@ -744,7 +749,7 @@ export default class PrayerWall extends React.Component {
                   }}
                 >
                   <header>
-                    <h>place holder for a caption here</h>
+                    <h>Search Area</h>
                   </header>
                   <div>
                     <Calendar
@@ -755,7 +760,6 @@ export default class PrayerWall extends React.Component {
 
                   {/* side pannel filters */}
                   <div>
-                    <h5 style={{ marginTop: "1rem" }}>Search Area</h5>
                     <div style={{ marginTop: "1rem" }}>
                       <MultiselectPrayerTopic
                         options={this.state.prayerTopicOptions}

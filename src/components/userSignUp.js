@@ -77,12 +77,12 @@ export default class UserSignUp extends React.Component {
         <div
           className="row"
           style={{
-            justifyContent: "end",
-            alignItems: "center",
             minHeight: "70vh",
+            maxWidth: "80%",
+            justifyContent: "end",
           }}
         >
-          <div className="d-flex justify-content-center align-items-center col-lg-7">
+          <div className="d-flex justify-content-end align-items-center">
             <div className="card text-white mb-3 bg-dark   bg-opacity-75">
               <div className="card-body mx-auto">
                 <h4 className="card-title mt-3 text-center">Hey, mate</h4>
