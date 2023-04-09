@@ -657,14 +657,20 @@ export default class PrayerWall extends React.Component {
               style={{
                 borderRadius: "5px",
                 backgroundColor: "#F5F5F5",
+                maxHeight: "90vh",
               }}
             >
-              <header>
+              <header className="my-4">
                 <h5>Search Area</h5>
               </header>
 
               <div>
-                <p style={{ marginBottom: "0" }}>created after this date</p>
+                <p
+                  className="d-flex justify-content-start"
+                  style={{ marginBottom: "0" }}
+                >
+                  created after this date:
+                </p>
                 <Calendar
                   style={{ marginTop: "0" }}
                   onChange={this.changeDate}
@@ -859,7 +865,7 @@ export default class PrayerWall extends React.Component {
               <div>{this.renderNewPrayerRequestForm()}</div>
               <div
                 className="mt-2"
-                style={{ height: "calc(100vh - 270px)", overflowY: "scroll" }}
+                style={{ height: "calc(93vh - 270px)", overflowY: "scroll" }}
               >
                 {this.renderContent()}
               </div>
